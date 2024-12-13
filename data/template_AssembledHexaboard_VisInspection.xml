@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ROOT xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<HEADER>
+    <TYPE>
+        <EXTENSION_TABLE_NAME>HGC_HEXABOARD_QC_VIS_ASSEMBLED</EXTENSION_TABLE_NAME>
+        <NAME>Assembled Hexaboard Visual Inspection</NAME>
+    </TYPE>
+    <RUN>
+        <RUN_NAME>Visual inspection of assembled hexaboard</RUN_NAME>
+        <RUN_BEGIN_TIMESTAMP>TimeStamp()</RUN_BEGIN_TIMESTAMP>
+        <RUN_END_TIMESTAMP>TimeStamp()</RUN_END_TIMESTAMP>
+        <INITIATED_BY_USER>ltsai</INITIATED_BY_USER>
+        <COMMENT_DESCRIPTION>Visual inspection</COMMENT_DESCRIPTION>
+        <LOCATION>NTU</LOCATION>
+    </RUN>
+  
+</HEADER>
+ 
+ 
+<DATA_SET>
+    <COMMENT_DESCRIPTION>Upload visual inspection data</COMMENT_DESCRIPTION>
+    <VERSION>1</VERSION>
+    <PART mode="auto">
+        <SERIAL_NUMBER>CSV_COLUMN(0,'Assembled hexaboard serial number')</SERIAL_NUMBER>
+        <BARCODE>CSV_COLUMN(0,'Assembled hexaboard serial number')</BARCODE>
+        <KIND_OF_PART>FindKindOfPart(CSV_COLUMN(0,'Assembled hexaboard serial number'))</KIND_OF_PART>
+    </PART>
+    <DATA>
+        <TESTED_BY>NTU Labs</TESTED_BY>
+        <TEST_DATE>TimeStampConv( CSV_COLUMN(0,'時間戳記'))</TEST_DATE>
+        <HGCROC_TYPE>CSV_COLUMN(0,'HGCROC chip version')</HGCROC_TYPE>
+        <HGCROC_ROTATION>CSV_COLUMN(0,'Visual inspection [HGCROC chip rotation]')</HGCROC_ROTATION>
+        <HGCROC_POS_0>ICID(CSV_COLUMN(0,'IC1'))</HGCROC_POS_0>
+        <HGCROC_POS_1>ICID(CSV_COLUMN(0,'IC2'))</HGCROC_POS_1>
+        <HGCROC_POS_2>ICID(CSV_COLUMN(0,'IC3'))</HGCROC_POS_2>
+        <HGCROC_POS_3>ICID(CSV_COLUMN(0,'IC4'))</HGCROC_POS_3>
+        <HGCROC_POS_4>ICID(CSV_COLUMN(0,'IC5'))</HGCROC_POS_4>
+        <HGCROC_POS_5>ICID(CSV_COLUMN(0,'IC6'))</HGCROC_POS_5>
+        <LDO_0>CSV_COLUMN(0,'LDO1')</LDO_0>
+        <LDO_1>CSV_COLUMN(0,'LDO2')</LDO_1>
+        <LDO_2>CSV_COLUMN(0,'LDO3')</LDO_2>
+        <CONNECTORS>CSV_COLUMN(0,'Visual inspection [Connector]')</CONNECTORS>
+        <PASSIVE_COMPONENTS>CSV_COLUMN(0,'Visual inspection [Component]')</PASSIVE_COMPONENTS>
+        <PWR_ON_CURRENT>CSV_COLUMN(0,'Power-on current')</PWR_ON_CURRENT>
+        <OPERATION_CURRENT>CSV_COLUMN(0,'Operation current')</OPERATION_CURRENT>
+        <CONFIGURATION_STATUS>CSV_COLUMN(0,'Function [Configuration status]')</CONFIGURATION_STATUS>
+        <DAQ_LINES_STATUS>CSV_COLUMN(0,'Function [DAQ links status]')</DAQ_LINES_STATUS>
+
+        <GENERAL_COMMENTS>CSV_COLUMN(0,'General comments') + MergeStatus(
+          CheckEqualValue(0,'Visual inspection [HGCROC chip rotation]', 'Pass'),
+          CheckEqualValue(0, 'Visual inspection [Connector]', 'Pass'),
+          CheckEqualValue(0, 'Visual inspection [Component]', 'Pass'),
+          CheckEqualValue(0, 'Visual inspection [Chip]', 'Pass'),
+          CheckEqualValue(0, 'Power short test [P1V5A]', 'Pass'),
+          CheckEqualValue(0, 'Power short test [P1V5D]', 'Pass'),
+          CheckEqualValue(0, 'Power short test [P1V2A]', 'Pass'),
+          CheckEqualValue(0, 'Power short test [P1V2D]', 'Pass'),
+          CheckEqualValue(0, 'Power-on voltage status [P1V5A]', 'Pass'),
+          CheckEqualValue(0, 'Power-on voltage status [P1V5D]', 'Pass'),
+          CheckEqualValue(0, 'Power-on voltage status [P1V2A]', 'Pass'),
+          CheckEqualValue(0, 'Power-on voltage status [P1V2D]', 'Pass'),
+          CheckEqualValue(0, 'HV circuit status', 'Pass'),
+          CheckEqualValue(0, 'Function [Configuration status]', 'Pass'),
+          CheckEqualValue(0, 'Function [DAQ links status]', 'Pass'),
+          CheckEqualValue(0, 'HCD', 'No')
+        )
+        </GENERAL_COMMENTS>
+    </DATA>
+</DATA_SET>
+
+</ROOT>
