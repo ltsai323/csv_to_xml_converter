@@ -176,10 +176,11 @@ class kind_of_part_mapping:
             reader = csv.DictReader(f)
             self.entries = []
             for entry in reader:
-                code = entry['label_typecode'].upper().replace('-','')
+                #code = entry['label_typecode'].upper().replace('-','')
+                code = entry['LABEL_TYPECODE'].upper().replace('-','')
                 entry['code'] = code
                 self.entries.append(entry)
-            #self.entries = [ entry for entry in reader ]
+
         info(f'[Initialized] kind_of_part_mapping() correctly activated')
     def Get(self, barcode):
         if '320' != barcode[0:3]: raise IOError(f'[InvalidBarcode] {barcode}')
@@ -192,8 +193,9 @@ class kind_of_part_mapping:
         for entry in self.entries:
             if entry['code'] in barcode_piece:
                 if entry['code'] == "": continue
-                BUG(f'[SearchRes] KindOfPart got barcode "{barcode_piece}" matching "{entry["code"]}" so the result is "{entry["display_name"]}"')
-                return entry['display_name']
+                BUG(f'[SearchRes] KindOfPart got barcode "{barcode_piece}" matching "{entry["code"]}" so the result is "{entry["DISPLAY_NAME"]}"')
+                return entry['DISPLAY_NAME']
+                #return entry['display_name']
 kindofpart_sources = None
 def init_kind_of_part_searcher(kindOFpartsCSV:str):
     global kindofpart_sources

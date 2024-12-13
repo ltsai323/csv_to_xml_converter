@@ -1,5 +1,5 @@
 
 mkdir -p outputs
 #python3 createXML_BareHex_VisInspection.py data/template_BareHex_VisInspection.xml 3
-python3 createXML_AssembledHexaBoard_CreatePart.py data/testsample_createXML_HexaBoard_Assembly.csv 1
-python3 createXML_AssembledHexaBoard_VisInspection.py data/testsample_createXML_HexaBoard_Assembly.csv 1
+python3 createXML_AssembledHexaBoard_VisInspection.py data/testsample_createXML_AssembledHexaBoard.csv 1
+python3 createXML_AssembledHexaBoard_CreatePart.py    data/testsample_createXML_AssembledHexaBoard.csv 1
