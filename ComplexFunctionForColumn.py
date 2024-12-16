@@ -145,6 +145,7 @@ def MergeStatus( *statusLIST ) -> str:
 
 
 import datetime
+import locale
 def TimeStamp():
     return str(datetime.datetime.now())
 
@@ -165,6 +166,12 @@ def get_time(timeSTR):
         return datetime.datetime.strptime(timeSTR, '%Y/%m/%d')
     except ValueError as e:
         pass
+    try:
+        locale.setlocale(locale.LC_TIME, 'zh_TW.UTF-8')
+        return datetime.strptime(timeSTR, "%Y/%m/%d %p %I:%M:%S")
+    except ValueError as e:
+        raise ValueError(f'unable to get time from "{timeSTR}"') from e
+
     info(f'[PatternRecognizationFailed] Input string "{ timeSTR }" cannot be converted to timestemp. Use current time')
     return datetime.datetime.now()
 def TimeStampConv(timeSTAMP:str):
