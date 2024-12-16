@@ -78,6 +78,7 @@ def modify_all_elements(data):
         return [modify_all_elements(item) for item in data]
     else:
         try:
+            if data == None: return None
             ### If the string is a code piece, use it
             #return eval(data, {'__builtins__': None}, vars(ComplexFunctionForColumn))
             return eval(data, {}, vars(ComplexFunctionForColumn))

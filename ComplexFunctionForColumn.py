@@ -168,7 +168,7 @@ def get_time(timeSTR):
         pass
     try:
         locale.setlocale(locale.LC_TIME, 'zh_TW.UTF-8')
-        return datetime.strptime(timeSTR, "%Y/%m/%d %p %I:%M:%S")
+        return datetime.datetime.strptime(timeSTR, "%Y/%m/%d %p %I:%M:%S")
     except ValueError as e:
         raise ValueError(f'unable to get time from "{timeSTR}"') from e
 
@@ -176,6 +176,15 @@ def get_time(timeSTR):
     return datetime.datetime.now()
 def TimeStampConv(timeSTAMP:str):
     return get_time(timeSTAMP)
+RUN_NUMBER_LOCATION = { 'NTU': '2601' }
+def RunNumberGenerator(location:str):
+    if location not in RUN_NUMBER_LOCATION.keys():
+        ''' Check location code here https://int2r-shipment.web.cern.ch/locations/ '''
+        raise NotImplementedError(f'[InvalidLocation] RunNumberGenerator() got invalid location "{ location }".')
+    now = datetime.datetime.now()
+    return now.strftime(f"{RUN_NUMBER_LOCATION[location]}%y%m%d%H%M%S")
+
+    
 
 class kind_of_part_mapping:
     def __init__(self, csvFILE):
@@ -237,9 +246,11 @@ def ReplaceBoolToPass(v):
 
 def FlatnessGrading(v):
     new_val = 'invalid'
-    if '<0.50'   == v: new_val = 'Pass'
-    if '0.5~1.0' == v: new_val = 'Pass'
-    if '>1.0'    == v: new_val = 'Fail'
+    passed = [ '<0.50', '0.5~1.0', '1.00~1.50', '<0.5', '>1.0', '0.50~1.00' ]
+    failed = []
+
+    if v in passed: new_val = 'Pass'
+    if v in failed: new_val = 'Fail'
 
     if new_val == 'invalid':
         info(f'[InvalidFlatnessGrading] Unable to recognize flatness "{ v }" from string.')
@@ -247,7 +258,7 @@ def FlatnessGrading(v):
     BUG(f'[FlatnessGrading] Got comment "{ v }" so grading "{ new_val }" given.')
     return new_val
 def grading(*vLIST):
-    return 'Pass'
+    raise NotImplementedError('[grading] is a incompleted function. implement it now!')
     #return f'[grading] {[v for v in vLIST]}'
 
 def ICID(v):

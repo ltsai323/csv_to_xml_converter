@@ -6,11 +6,13 @@
         <NAME>Bare Hexaboard Visual QC Data</NAME>
     </TYPE>
     <RUN>
-        <RUN_NAME>Visual inspection of bare hexaboard</RUN_NAME>
+        <RUN_TYPE>Visual inspection of bare hexaboard</RUN_TYPE>
+        <RUN_NUMBER>RunNumberGenerator("NTU")</RUN_NUMBER>
         <RUN_BEGIN_TIMESTAMP>TimeStamp()</RUN_BEGIN_TIMESTAMP>
         <RUN_END_TIMESTAMP>TimeStamp()</RUN_END_TIMESTAMP>
         <INITIATED_BY_USER>ltsai</INITIATED_BY_USER>
         <COMMENT_DESCRIPTION>Visual inspection</COMMENT_DESCRIPTION>
+        <LOCATION>NTU</LOCATION>
     </RUN>
   
 </HEADER>
@@ -19,25 +21,25 @@
         <COMMENT_DESCRIPTION>Upload visual inspection data</COMMENT_DESCRIPTION>
         <VERSION>1</VERSION>
         <PART mode="auto">
-            <SERIAL_NUMBER>CSV_COLUMN(0,'CERN ID')</SERIAL_NUMBER>
-            <KIND_OF_PART>FindKindOfPart( CSV_COLUMN(0,'CERN ID') )</KIND_OF_PART>
+            <SERIAL_NUMBER>CSV_COLUMN(0,'Bare serial number')</SERIAL_NUMBER>
+            <KIND_OF_PART>FindKindOfPart( CSV_COLUMN(0,'Bare serial number') )</KIND_OF_PART>
         </PART>
   
         <DATA>  
             <TESTED_BY>hedy</TESTED_BY>
-            <TEST_DATE>TimeStampConv( CSV_COLUMN(2,'上件完成日期'))</TEST_DATE>
-            <COMMENTS>CSV_COLUMN(2,'溢膠檢查_備註')</COMMENTS>
-            <FLATNESS>FlatnessGrading(CSV_COLUMN(2,'Flatness'))</FLATNESS>
-            <FLATNESS_COMMENTS>CSV_COLUMN(2,'Flatness')</FLATNESS_COMMENTS>
-            <THICKNESS>CSV_COLUMN(2,'Thickness')</THICKNESS>
-            <BGA_PLATING>ReplaceBoolToPass( CSV_COLUMN(2,'Plating (BGA)') )</BGA_PLATING>
-            <PLATING_HOLES>ReplaceBoolToPass( CSV_COLUMN(2,'Plating (Holes)') )</PLATING_HOLES>
-            <STEPPED_HOLE>ReplaceBoolToPass( CSV_COLUMN(2,'Plating (Holes)') )</STEPPED_HOLE>
-            <SLDR_MASK_ALGNMMNT>ReplaceBoolToPass( CSV_COLUMN(2,'Soldermask alignment') )</SLDR_MASK_ALGNMMNT>
-            <GLUE>ReplaceBoolToPass( CSV_COLUMN(2,'Glue problems\n(OK 請打勾)') )</GLUE>
-            <TEST_COUPONS>ReplaceBoolToPass( CSV_COLUMN(2,'Test coupons (observations, continuity measurements etc.)') )</TEST_COUPONS>
-            <ACCEPTED>ReplaceBoolToPass( CSV_COLUMN(2,'Accept?') )</ACCEPTED>
-            <GRADE>grading( CSV_COLUMN(2,'Plating (BGA)'), CSV_COLUMN(2,'Plating (Holes)'), CSV_COLUMN(2,'Soldermask alignment'), CSV_COLUMN(2,'Glue problems\n(OK 請打勾)'), CSV_COLUMN(2,'Test coupons (observations, continuity measurements etc.)'), CSV_COLUMN(2,'Accept?') )</GRADE>
+            <TEST_DATE>TimeStampConv( CSV_COLUMN(0,'時間戳記'))</TEST_DATE>
+            <COMMENTS>CSV_COLUMN(0,'General comment')</COMMENTS>
+            <FLATNESS>FlatnessGrading(CSV_COLUMN(0,'Flatness'))</FLATNESS>
+            <FLATNESS_COMMENTS>CSV_COLUMN(0,'Flatness')</FLATNESS_COMMENTS>
+            <THICKNESS>CSV_COLUMN(0,'Thickness')</THICKNESS>
+            <BGA_PLATING>CSV_COLUMN(0,'Vision inspection [Plating (BGA)]')</BGA_PLATING>
+            <PLATING_HOLES>CSV_COLUMN(0,'Vision inspection [Plating (Holes)]')</PLATING_HOLES>
+            <STEPPED_HOLE>CSV_COLUMN(0,'Vision inspection (option) [Stepped Holes]')</STEPPED_HOLE>
+            <SLDR_MASK_ALGNMMNT>CSV_COLUMN(0,'Vision inspection [Soldermask]')</SLDR_MASK_ALGNMMNT>
+            <GLUE>CSV_COLUMN(0,'Vision inspection (option) [Glue]')</GLUE>
+            <TEST_COUPONS>CSV_COLUMN(0,'Vision inspection [Test coupons]')</TEST_COUPONS>
+            <ACCEPTED>CSV_COLUMN(0,'Accepted')</ACCEPTED>
+            <GRADE></GRADE>
         </DATA>
     </DATA_SET>
 </ROOT>
