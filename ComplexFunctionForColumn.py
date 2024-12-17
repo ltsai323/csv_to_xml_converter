@@ -268,6 +268,15 @@ def ICID(v):
     except IndexError as e:
         raise RuntimeError(f'[Invalid IC ID] input ID "{ v }" in wrong format. Please check it')
 
+OUTPUT_VERSION = '1'
+def set_version(v):
+    global OUTPUT_VERSION
+    OUTPUT_VERSION = v
+    info(f'[Version] Set output version as {OUTPUT_VERSION}')
+def VERSION():
+    global OUTPUT_VERSION
+    return str(OUTPUT_VERSION)
+
 
 if __name__ == "__main__":
     #testfunc_csv_column_idx()

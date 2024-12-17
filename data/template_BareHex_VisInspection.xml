@@ -19,7 +19,7 @@
   
     <DATA_SET>
         <COMMENT_DESCRIPTION>Upload visual inspection data</COMMENT_DESCRIPTION>
-        <VERSION>1</VERSION>
+        <VERSION>VERSION()</VERSION>
         <PART mode="auto">
             <SERIAL_NUMBER>CSV_COLUMN(0,'Bare serial number')</SERIAL_NUMBER>
             <KIND_OF_PART>FindKindOfPart( CSV_COLUMN(0,'Bare serial number') )</KIND_OF_PART>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ROOT xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<HEADER>
+    <TYPE>
+        <EXTENSION_TABLE_NAME>HGC_BARE_PCB_DATA</EXTENSION_TABLE_NAME>
+        <NAME>Bare Hexaboard Visual QC Data</NAME>
+    </TYPE>
+    <RUN>
+        <RUN_NAME>Visual inspection of bare hexaboard</RUN_NAME>
+        <RUN_BEGIN_TIMESTAMP>TimeStamp()</RUN_BEGIN_TIMESTAMP>
+        <RUN_END_TIMESTAMP>TimeStamp()</RUN_END_TIMESTAMP>
+        <INITIATED_BY_USER>ltsai</INITIATED_BY_USER>
+        <COMMENT_DESCRIPTION>Visual inspection</COMMENT_DESCRIPTION>
+    </RUN>
+  
+</HEADER>
+  
+    <DATA_SET>
+        <COMMENT_DESCRIPTION>Upload visual inspection data</COMMENT_DESCRIPTION>
+        <VERSION>VERSION()</VERSION>
+        <PART mode="auto">
+            <SERIAL_NUMBER>CSV_COLUMN(0,'CERN ID')</SERIAL_NUMBER>
+            <KIND_OF_PART>FindKindOfPart( CSV_COLUMN(0,'CERN ID') )</KIND_OF_PART>
+        </PART>
+  
+        <DATA>  
+            <TESTED_BY>hedy</TESTED_BY>
+            <TEST_DATE>TimeStampConv( CSV_COLUMN(2,'上件完成日期'))</TEST_DATE>
+            <COMMENTS>CSV_COLUMN(2,'溢膠檢查_備註')</COMMENTS>
+            <FLATNESS>FlatnessGrading(CSV_COLUMN(2,'Flatness'))</FLATNESS>
+            <FLATNESS_COMMENTS>CSV_COLUMN(2,'Flatness')</FLATNESS_COMMENTS>
+            <THICKNESS>CSV_COLUMN(2,'Thickness')</THICKNESS>
+            <BGA_PLATING>ReplaceBoolToPass( CSV_COLUMN(2,'Plating (BGA)') )</BGA_PLATING>
+            <PLATING_HOLES>ReplaceBoolToPass( CSV_COLUMN(2,'Plating (Holes)') )</PLATING_HOLES>
+            <STEPPED_HOLE>ReplaceBoolToPass( CSV_COLUMN(2,'Plating (Holes)') )</STEPPED_HOLE>
+            <SLDR_MASK_ALGNMMNT>ReplaceBoolToPass( CSV_COLUMN(2,'Soldermask alignment') )</SLDR_MASK_ALGNMMNT>
+            <GLUE>ReplaceBoolToPass( CSV_COLUMN(2,'Glue problems\n(OK 請打勾)') )</GLUE>
+            <TEST_COUPONS>ReplaceBoolToPass( CSV_COLUMN(2,'Test coupons (observations, continuity measurements etc.)') )</TEST_COUPONS>
+            <ACCEPTED>ReplaceBoolToPass( CSV_COLUMN(2,'Accept?') )</ACCEPTED>
+            <GRADE>grading( CSV_COLUMN(2,'Plating (BGA)'), CSV_COLUMN(2,'Plating (Holes)'), CSV_COLUMN(2,'Soldermask alignment'), CSV_COLUMN(2,'Glue problems\n(OK 請打勾)'), CSV_COLUMN(2,'Test coupons (observations, continuity measurements etc.)'), CSV_COLUMN(2,'Accept?') )</GRADE>
+        </DATA>
+    </DATA_SET>
+</ROOT>

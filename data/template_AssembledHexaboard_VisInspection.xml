@@ -19,7 +19,7 @@
  
 <DATA_SET>
     <COMMENT_DESCRIPTION>Upload visual inspection data</COMMENT_DESCRIPTION>
-    <VERSION>1</VERSION>
+    <VERSION>VERSION()</VERSION>
     <PART mode="auto">
         <SERIAL_NUMBER>CSV_COLUMN(0,'Assembled hexaboard serial number')</SERIAL_NUMBER>
         <BARCODE>CSV_COLUMN(0,'Assembled hexaboard serial number')</BARCODE>
