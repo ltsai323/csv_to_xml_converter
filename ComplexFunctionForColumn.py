@@ -130,9 +130,15 @@ def CSV_COLUMN(iLAYER:int,columnNAME:str):
     idx = csv_column_idx( csv_column(iLAYER=iLAYER, columnNAME=columnNAME) )
     return get_value_from_csv_entry(idx)
 
-def CheckEqualValue(iLAYER:int,columnNAME:str,equalVALUE:str):
+def CheckEqualValue(iLAYER:int,columnNAME:str,equalVALUEs:list):
     val = CSV_COLUMN(iLAYER,columnNAME)
-    if val == equalVALUE: return None # Pass checking
+
+    passed = False
+    for equalVALUE in equalVALUEs:
+        if val == equalVALUE:
+            passed = True
+            break
+    if passed: return None # Pass checking
     ### if the value is not wanted value, show message
     return f'[InvalidValue] "{ columnNAME }" got value "{ val }". Which is expected as "{ equalVALUE }"'
 
@@ -211,6 +217,7 @@ class kind_of_part_mapping:
                 if entry['code'] == "": continue
                 BUG(f'[SearchRes] KindOfPart got barcode "{barcode_piece}" matching "{entry["code"]}" so the result is "{entry["DISPLAY_NAME"]}"')
                 return entry['DISPLAY_NAME']
+        raise IOError(f'[NoSearchResult] kind_of_part_mapping() is unable to match barcode "{ barcode }".')
                 #return entry['display_name']
 kindofpart_sources = None
 def init_kind_of_part_searcher(kindOFpartsCSV:str):
@@ -246,8 +253,8 @@ def ReplaceBoolToPass(v):
 
 def FlatnessGrading(v):
     new_val = 'invalid'
-    passed = [ '<0.50', '0.5~1.0', '1.00~1.50', '<0.5', '>1.0', '0.50~1.00' ]
-    failed = []
+    passed = [ '<0.50', '0.5~1.0', '1.00~1.50', '<0.5', '>1.0', '0.50~1.00', '1.0~1.5' ]
+    failed = [ '1.5~2.0', '2.0~2.5', '2.5~3.0' ]
 
     if v in passed: new_val = 'Pass'
     if v in failed: new_val = 'Fail'
@@ -261,12 +268,25 @@ def grading(*vLIST):
     raise NotImplementedError('[grading] is a incompleted function. implement it now!')
     #return f'[grading] {[v for v in vLIST]}'
 
-def ICID(v):
+DEFINED_ICTYPE = {
+        'v3b': '3b',
+        'v3a': '3a',
+        'v3c': '3c',
+        }
+
+def ICID(icTYPE,icID):
     try:
-        id_list = v.split(' ')
-        return f'{id_list[1]}-{id_list[0]}'
-    except IndexError as e:
+        if icID:
+            ictype = icTYPE.lower()
+            if ictype == 'v3a': return icID # asdf
+            if ictype == 'v3b': return f'ICRH{DEFINED_ICTYPE[ictype]}{icID}'
+            BUG(f'[Blank ICID] type {icTYPE} and ic ID {icID} finds no matching. Empty field filled')
+        return ''
+
+    except KeyError as e:
         raise RuntimeError(f'[Invalid IC ID] input ID "{ v }" in wrong format. Please check it')
+def FillConstIfColumnExisted(constVAL, col):
+    return constVAL if col != '' else ''
 
 OUTPUT_VERSION = '1'
 def set_version(v):
