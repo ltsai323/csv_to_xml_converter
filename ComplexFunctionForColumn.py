@@ -4,7 +4,7 @@ def info(mesg):
     print(f'i@ {mesg}')
 def warning(mesg):
     print(f'W@ {mesg}')
-DEBUG_MODE = False
+DEBUG_MODE = True
 def BUG(mesg):
     if DEBUG_MODE:
         print(f'b@ {mesg}')
@@ -281,12 +281,14 @@ def ICID(icTYPE,icID):
             if ictype == 'v3a': return icID # asdf
             if ictype == 'v3b': return f'ICRH{DEFINED_ICTYPE[ictype]}{icID}'
             BUG(f'[Blank ICID] type {icTYPE} and ic ID {icID} finds no matching. Empty field filled')
+        else:
+            BUG(f'[NoICID] Skip this entry')
         return ''
 
     except KeyError as e:
         raise RuntimeError(f'[Invalid IC ID] input ID "{ v }" in wrong format. Please check it')
-def FillConstIfColumnExisted(constVAL, col):
-    return constVAL if col != '' else ''
+def FillValueIfColumnExisted(val, col):
+    return val if col != '' else ''
 
 def BatchNumber(v):
     def generate_batch_number(dt=None):
