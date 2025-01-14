@@ -288,6 +288,30 @@ def ICID(icTYPE,icID):
 def FillConstIfColumnExisted(constVAL, col):
     return constVAL if col != '' else ''
 
+def BatchNumber(v):
+    def generate_batch_number(dt=None):
+        if dt is None:
+            dt = datetime.datetime.now()
+        
+        # Extract the last two digits of the year
+        year_suffix = dt.strftime('%y')  # '%y' gives the last two digits of the year, e.g., '25' for 2025
+        
+        # Extract the ISO week number
+        # isocalendar() returns a tuple (ISO year, ISO week number, ISO weekday)
+        week_number = dt.isocalendar()[1]
+        
+        # Format the week number as a two-digit string, adding a leading zero if necessary
+        week_number_str = f"{week_number:02d}"
+        
+        # Combine the year suffix and week number to form the batch number
+        batch_number = f"{year_suffix}{week_number_str}"
+        
+        return batch_number
+    if len(v) == 4: return v
+    t = get_time(v)
+    return generate_batch_number(t)
+
+
 OUTPUT_VERSION = '1'
 def set_version(v):
     global OUTPUT_VERSION
@@ -301,6 +325,7 @@ def VERSION():
 if __name__ == "__main__":
     #testfunc_csv_column_idx()
     #testfunc_init_csv_column_definition()
-    testfunc_read_csv_entry()
+    #testfunc_read_csv_entry()
     #testfunc_FindKindOfPart()
+    pass
 
