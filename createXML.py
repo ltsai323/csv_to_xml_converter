@@ -1,5 +1,11 @@
 import xml.etree.ElementTree as ET
 import ComplexFunctionForColumn
+DEBUG_MODE = False
+FILE_IDENTIFIER = 'createXML.py'
+def BUG(mesg):
+    if DEBUG_MODE:
+        print(f'b-{FILE_IDENTIFIER}@ {mesg}')
+
 
 
 def xml_to_dict(xml_content):
@@ -95,6 +101,34 @@ def modify_all_elements(data):
             if '(' in data and "'" in data:
                 print(f'[WARNING] Save string "{ data }" without interpreting.')
             return data
+def remove_empty_entries_from_list(nested_dict):
+    """
+    Remove dictionaries in a list if all values are empty.
+
+    Args:
+        nested_dict (dict): The nested dictionary to process.
+
+    Returns:
+        dict: The updated dictionary with empty entries removed.
+    """
+    def is_dict_empty(d):
+        return all(v in [None, "", []] for v in d.values())
+    
+    def clean_children(children):
+        if isinstance(children, list):
+            return [child for child in children if not is_dict_empty(child)]
+        return children
+    
+    def recursive_clean(data):
+        if isinstance(data, dict):
+            for key, value in data.items():
+                if key == "CHILDREN" and "PART" in value:
+                    value["PART"] = clean_children(value["PART"])
+                else:
+                    recursive_clean(value)
+        return data
+
+    return recursive_clean(nested_dict)
 
 import csv
 def show_first_10_lines(csvFILE:str):
@@ -156,12 +190,11 @@ def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, kopS
         for idx, line in enumerate(reader):
             if idx < startIDX: continue # skip the column definition lines
             ComplexFunctionForColumn.set_csv_entry(line)
-            xml_dict = modify_all_elements(xml_dict_template)
+            xml_dict_contains_empty = modify_all_elements(xml_dict_template)
+            xml_dict = remove_empty_entries_from_list(xml_dict_contains_empty)
 
 
-            ## Print the result
-            PRINT_RESULT = False
-            if PRINT_RESULT:
+            if DEBUG_MODE:
                 import pprint
                 pprint.pprint(xml_dict, compact=True, width=200)
 
@@ -173,6 +206,10 @@ def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, kopS
             output_file = f'outputs/NTU_{outputTAG}_{serialNumber}.xml'
             IOMgr_CSVinXMLout.save_as_a_butified_xml_file(xml_root, output_file)
             print(f"[Output] XML file saved to {output_file}")
+
+            if DEBUG_MODE:
+                BUG(f'[DEBUG MODE] Only show one entry for checking')
+                break
 
 
 
