@@ -31,7 +31,6 @@ if __name__ == "__main__":
 
     if startIDX<=0: createXML.show_first_10_lines(inCSVfile)
 
-    kopSOURCE = 'data/Kind_of_parts.csv'
     xmlTEMPLATE = 'data/template_BareHex_VisInspection.xml'
     outputTAG = 'BareHex_VisInspection'
     outputVERSION = '1'
@@ -42,6 +41,5 @@ if __name__ == "__main__":
             startIDX = startIDX,
             xmlTEMPLATE = xmlTEMPLATE,
             outputTAG = outputTAG,
-            kopSOURCEfile = kopSOURCE,
             version = outputVERSION
             )
