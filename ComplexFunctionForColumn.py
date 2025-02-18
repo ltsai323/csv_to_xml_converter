@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 import csv
-def info(mesg):
-    print(f'i@ {mesg}')
-def warning(mesg):
-    print(f'W@ {mesg}')
-DEBUG_MODE = True
+FILE_IDENTIFIER = 'ComplexFunctionForColumn.py'
+DEBUG_MODE = False
 def BUG(mesg):
     if DEBUG_MODE:
-        print(f'b@ {mesg}')
+        print(f'b-{FILE_IDENTIFIER}@ {mesg}')
+def info(mesg):
+    print(f'i-{FILE_IDENTIFIER}@ {mesg}')
+def warning(mesg):
+    print(f'WARNING-{FILE_IDENTIFIER}@ {mesg}')
+
 
 from collections import namedtuple
 csv_column = namedtuple('csv_column', 'iLAYER columnNAME') # named tuple used as dict key.
@@ -158,20 +160,19 @@ def TimeStamp():
 def get_time(timeSTR):
     try:
         return datetime.datetime.strptime(timeSTR, '%Y-%m-%d %H:%M:%S')
-    except ValueError as e:
-        pass
+    except ValueError as e: pass
+    try:
+        return datetime.datetime.strptime(timeSTR, '%Y-%m-%d')
+    except ValueError as e: pass
     try:
         return datetime.datetime.strptime(timeSTR, '%Y.%m.%d')
-    except ValueError as e:
-        pass
+    except ValueError as e: pass
     try:
         return datetime.datetime.strptime(timeSTR, '%Y:%m:%d')
-    except ValueError as e:
-        pass
+    except ValueError as e: pass
     try:
         return datetime.datetime.strptime(timeSTR, '%Y/%m/%d')
-    except ValueError as e:
-        pass
+    except ValueError as e: pass
     try:
         locale.setlocale(locale.LC_TIME, 'zh_TW.UTF-8')
         return datetime.datetime.strptime(timeSTR, "%Y/%m/%d %p %I:%M:%S")
@@ -193,15 +194,24 @@ def RunNumberGenerator(location:str):
     
 
 class kind_of_part_mapping:
-    def __init__(self, csvFILE):
-        with open(csvFILE, 'r') as f:
-            reader = csv.DictReader(f)
-            self.entries = []
-            for entry in reader:
-                #code = entry['label_typecode'].upper().replace('-','')
-                code = entry['LABEL_TYPECODE'].upper().replace('-','')
-                entry['code'] = code
-                self.entries.append(entry)
+    def __init__(self, csvFILEs:list):
+        self.entries = []
+        self.codes_history = set()
+        for csvFILE in csvFILEs:
+            info(f'[LoadKindOfPart] file "{ csvFILE }" loaded.')
+            with open(csvFILE, 'r') as f:
+                reader = csv.DictReader(f)
+                for entry in reader:
+                    # load entry in CSV file and add additional column 'code'.
+                    code = entry['LABEL_TYPECODE'].upper().replace('-','')
+                    if code == '': continue
+                    entry['code'] = code
+                    if code in self.codes_history:
+                        warning(f'[Duplicated KindOfPart] Got duplicated code "{ code }" in entry "{ entry }". Skip it')
+                        continue
+                    self.entries.append(entry)
+                    self.codes_history.add(code)
+
 
         info(f'[Initialized] kind_of_part_mapping() correctly activated')
     def Get(self, barcode):
@@ -217,12 +227,17 @@ class kind_of_part_mapping:
                 if entry['code'] == "": continue
                 BUG(f'[SearchRes] KindOfPart got barcode "{barcode_piece}" matching "{entry["code"]}" so the result is "{entry["DISPLAY_NAME"]}"')
                 return entry['DISPLAY_NAME']
-        raise IOError(f'[NoSearchResult] kind_of_part_mapping() is unable to match barcode "{ barcode }".')
-                #return entry['display_name']
+        err_mesg = f'[NoSearchResult] kind_of_part_mapping() is unable to match barcode "{ barcode }".'
+        if DEBUG_MODE:
+            BUG(err_mesg)
+            BUG('[IgnoreEmptyValue] kind_of_part_mapping() puts empty value in this field.')
+            return ''
+        raise IOError(err_mesg)
+
 kindofpart_sources = None
-def init_kind_of_part_searcher(kindOFpartsCSV:str):
+def init_kind_of_part_searcher(kindOFpartsCSVs:list):
     global kindofpart_sources
-    kindofpart_sources = kind_of_part_mapping(kindOFpartsCSV)
+    kindofpart_sources = kind_of_part_mapping(kindOFpartsCSVs)
 
 def FindKindOfPart(BARCODEorSERIALNUMBER:str):
     global kindofpart_sources
@@ -231,15 +246,48 @@ def FindKindOfPart(BARCODEorSERIALNUMBER:str):
     except AttributeError as e:
         raise RuntimeError(f'[FindKindOfPart] kindofpart_sources is not initialized, Use init_kind_of_part_searcher() before use this function\n\n\n')
 
+def FindKindOfPart_AncientCoding(BARCODEorSERIALNUMBER:str):
+    new_barcode = '320'+BARCODEorSERIALNUMBER
+    return FindKindOfPart(new_barcode)
+
 def testfunc_FindKindOfPart():
     kop_file = 'data/Kind_of_parts.csv'
-    init_kind_of_part_searcher(kop_file)
+    init_kind_of_part_searcher([kop_file])
 
     serial_number = '320070100300068'
     info(FindKindOfPart(serial_number))
     exit()
 
     
+def TranslateSensorBarcode(density:str, sensorBARCODE:str):
+    ''' 600036_2 '''
+
+
+    MM = None
+    if density == 'HD': MM = 'SH'
+    if density == 'LD': MM = 'SL'
+    if MM == None: raise ValueError(f'[InvalidDensityCode] TranslateSensorBarcode() got invalid density "{ denstiy }". Only HD and LD available')
+
+
+    if '_' not in sensorBARCODE:
+        raise ValueError(f'[InvalidSensorBarcode] code "{ sensorBARCODE }" is invalid')
+    #geoTYPE = { '0':'full', '1':'top', '2':'bottom', '3':'left', '4':'right', '5':'five' }
+    geoTYPE = { '0':'FXX', '1':'TXX', '2':'BXX', '3':'LXX', '4':'RXX', '5':'5XX' }
+    geocode = sensorBARCODE.split('_')[1]
+    try:
+        geotype = geoTYPE[geocode]
+    except KeyError as e:
+        raise KeyError(f'[InvalidSensorBarcode] code "{ sensorBARCODE }" got strange geometry code "{ geocode }".') from e
+
+    #thicknessTYPE = { '1':'300um', '2':'200um', '3':'120um', '4':'300um partial','5':'200um partial', '6':'120um partial' }
+    thicknessCODE =  { '1':'3'    , '2':'2'    , '3':'1'    , '4':'3'            ,'5':'2', '6':'1' }
+    thicknesscode = thicknessCODE[ sensorBARCODE[0] ]
+    TTTT = thicknesscode + geotype
+
+    NNNNN = sensorBARCODE.replace('_','')
+    return '320'+MM+TTTT+NNNNN
+    
+
 
 
 
@@ -309,6 +357,11 @@ def BatchNumber(v):
         batch_number = f"{year_suffix}{week_number_str}"
         
         return batch_number
+    if DEBUG_MODE:
+        if v == '':
+            BUG(f'[IgnoreEmptyValue] BatchNumber() got empty input. Put empty into field')
+            return ''
+
     if len(v) == 4: return v
     t = get_time(v)
     return generate_batch_number(t)
