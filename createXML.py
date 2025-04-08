@@ -216,3 +216,23 @@ def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, vers
 
 
 
+if __name__ == "__main__":
+    import sys
+    xmlTEMPLATE = sys.argv[1]
+    inCSVfile   = sys.argv[2]
+    outputTAG   = sys.argv[3]
+    startIDX    = 0 if len(sys.argv) < 4+1 else int(sys.argv[4])
+
+    
+    if startIDX<=0: show_first_10_lines(inCSVfile)
+
+    outputVERSION = '1'
+
+
+    main_func(
+            inCSVfile = inCSVfile,
+            startIDX = startIDX,
+            xmlTEMPLATE = xmlTEMPLATE,
+            outputTAG = outputTAG,
+            version = outputVERSION
+            )

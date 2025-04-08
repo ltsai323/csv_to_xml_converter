@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ROOT xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <PARTS>
+        <PART mode="auto">
+            <KIND_OF_PART>FindKindOfPart(CSV_COLUMN(0,'module_name'))</KIND_OF_PART>
+            <SERIAL_NUMBER>CSV_COLUMN(0,'module_name')</SERIAL_NUMBER>
+            <BARCODE>CSV_COLUMN(0,'module_name')</BARCODE>
+            <MANUFACTURER>NTU</MANUFACTURER>
+            <INSTITUTION>National Taiwan University</INSTITUTION>
+            <LOCATION>NTU</LOCATION>
+            <CHILDREN>
+                <PART mode="auto">
+                    <KIND_OF_PART>FindKindOfPart(CSV_COLUMN(0,'proto_name'))</KIND_OF_PART>
+                    <SERIAL_NUMBER>CSV_COLUMN(0,'proto_name')</SERIAL_NUMBER>
+                </PART>
+                <PART mode="auto">
+                    <KIND_OF_PART>FindKindOfPart(CSV_COLUMN(0,'hxb_name'))</KIND_OF_PART>
+                    <SERIAL_NUMBER>CSV_COLUMN(0,'hxb_name')</SERIAL_NUMBER>
+                </PART>
+            </CHILDREN>
+        </PART>
+    </PARTS>
+</ROOT>

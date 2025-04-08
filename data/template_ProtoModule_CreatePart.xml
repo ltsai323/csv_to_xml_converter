@@ -16,7 +16,7 @@
                 </PART>
                 <PART mode="auto">
                     <KIND_OF_PART>FindKindOfPart(TranslateSensorBarcode('HD',CSV_COLUMN(0,'sen_name')))</KIND_OF_PART>
-                    <SERIAL_NUMBER>TranslateSensorBarcode('HD',CSV_COLUMN(0,'sen_name'))</SERIAL_NUMBER>
+                    <SERIAL_NUMBER>CSV_COLUMN(0,'sen_name')</SERIAL_NUMBER>
                 </PART>
             </CHILDREN>
         </PART>

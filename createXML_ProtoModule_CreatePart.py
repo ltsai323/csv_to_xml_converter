@@ -30,7 +30,7 @@ if __name__ == "__main__":
     if startIDX<=0: createXML.show_first_10_lines(inCSVfile)
 
     xmlTEMPLATE = 'data/template_ProtoModule_CreatePart.xml'
-    outputTAG = 'AssembledHexBoard_CreatePart'
+    outputTAG = 'ProtoModule_CreatePart'
     outputVERSION = '1'
 
     createXML.main_func(

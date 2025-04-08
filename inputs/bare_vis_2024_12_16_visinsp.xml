@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ROOT xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<HEADER>
+    <TYPE>
+        <EXTENSION_TABLE_NAME>HGC_BARE_PCB_DATA</EXTENSION_TABLE_NAME>
+        <NAME>Bare Hexaboard Visual QC Data</NAME>
+    </TYPE>
+    <RUN>
+        <RUN_TYPE>Visual inspection of bare hexaboard</RUN_TYPE>
+        <RUN_NUMBER>RunNumberGenerator("NTU")</RUN_NUMBER>
+        <RUN_BEGIN_TIMESTAMP>TimeStamp()</RUN_BEGIN_TIMESTAMP>
+        <RUN_END_TIMESTAMP>TimeStamp()</RUN_END_TIMESTAMP>
+        <INITIATED_BY_USER>ltsai</INITIATED_BY_USER>
+        <COMMENT_DESCRIPTION>Visual inspection</COMMENT_DESCRIPTION>
+        <LOCATION>NTU</LOCATION>
+    </RUN>
+  
+</HEADER>
+  
+    <DATA_SET>
+        <COMMENT_DESCRIPTION>Upload visual inspection data</COMMENT_DESCRIPTION>
+        <VERSION>VERSION()</VERSION>
+        <PART mode="auto">
+            <SERIAL_NUMBER>CSV_COLUMN(0,'Bare serial number')</SERIAL_NUMBER>
+            <KIND_OF_PART>FindKindOfPart( CSV_COLUMN(0,'Bare serial number') )</KIND_OF_PART>
+        </PART>
+  
+        <DATA>  
+            <TESTED_BY>hedy</TESTED_BY>
+            <TEST_DATE>TimeStampConv( CSV_COLUMN(0,'時間戳記'))</TEST_DATE>
+            <COMMENTS>CSV_COLUMN(0,'General comment')</COMMENTS>
+            <FLATNESS>FlatnessGrading(CSV_COLUMN(0,'Flatness'))</FLATNESS>
+            <FLATNESS_COMMENTS>CSV_COLUMN(0,'Flatness')</FLATNESS_COMMENTS>
+            <THICKNESS>CSV_COLUMN(0,'Thickness')</THICKNESS>
+            <BGA_PLATING>CSV_COLUMN(0,'Vision inspection [Plating (BGA)]')</BGA_PLATING>
+            <PLATING_HOLES>CSV_COLUMN(0,'Vision inspection [Plating (Holes)]')</PLATING_HOLES>
+            <STEPPED_HOLE>CSV_COLUMN(0,'Vision inspection (option) [Stepped Holes]')</STEPPED_HOLE>
+            <SLDR_MASK_ALGNMMNT>CSV_COLUMN(0,'Vision inspection [Soldermask]')</SLDR_MASK_ALGNMMNT>
+            <GLUE>CSV_COLUMN(0,'Vision inspection (option) [Glue]')</GLUE>
+            <TEST_COUPONS>CSV_COLUMN(0,'Vision inspection [Test coupons]')</TEST_COUPONS>
+            <ACCEPTED>CSV_COLUMN(0,'Accepted')</ACCEPTED>
+            <GRADE></GRADE>
+        </DATA>
+    </DATA_SET>
+</ROOT>

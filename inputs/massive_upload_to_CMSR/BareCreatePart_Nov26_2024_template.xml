@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ROOT xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <PARTS>
+        <PART mode="auto">
+            <KIND_OF_PART>CSV_COLUMN(0,'KIND_OF_PART')</KIND_OF_PART>
+            <SERIAL_NUMBER>CSV_COLUMN(0,'SERIAL_NUMBER')</SERIAL_NUMBER>
+            <BARCODE>CSV_COLUMN(0,'BARCODE')</BARCODE>
+            <VERSION>0</VERSION>
+            <MANUFACTURER>CSV_COLUMN(0,'MANUFACTURER')</MANUFACTURER>
+            <BATCH_NUMBER>CSV_COLUMN(0,'BATCH_NUMBER')</BATCH_NUMBER>
+            <INSTITUTION>National Taiwan University</INSTITUTION>
+            <LOCATION>NTU</LOCATION>
+            <COMMENT_DESCRIPTION>rslu upload</COMMENT_DESCRIPTION>
+        </PART>
+    </PARTS>
+</ROOT>

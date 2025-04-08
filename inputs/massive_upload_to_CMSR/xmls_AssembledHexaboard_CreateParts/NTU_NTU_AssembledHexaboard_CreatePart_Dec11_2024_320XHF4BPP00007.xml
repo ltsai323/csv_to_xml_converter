@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<ROOT>
+  <PARTS>
+    <PART>
+      <KIND_OF_PART>Hexaboard HD Full</KIND_OF_PART>
+      <BARCODE>320XHF4BPP00007</BARCODE>
+      <SERIAL_NUMBER>320XHF4BPP00007</SERIAL_NUMBER>
+      <BATCH_NUMBER>2449</BATCH_NUMBER>
+      <MANUFACTURER>Plotech</MANUFACTURER>
+      <LOCATION>NTU</LOCATION>
+      <INSTITUTION>National Taiwan University</INSTITUTION>
+      <CHILDREN>
+        <PART mode="auto">
+          <KIND_OF_PART>Bare Hexaboard HD Full</KIND_OF_PART>
+          <SERIAL_NUMBER>320070100300055</SERIAL_NUMBER>
+        </PART>
+        <PART mode="auto">
+          <KIND_OF_PART>HD HGCROC</KIND_OF_PART>
+          <SERIAL_NUMBER>ICRH3b012178 2824</SERIAL_NUMBER>
+        </PART>
+        <PART mode="auto">
+          <KIND_OF_PART>HD HGCROC</KIND_OF_PART>
+          <SERIAL_NUMBER>ICRH3b012231 2824</SERIAL_NUMBER>
+        </PART>
+        <PART mode="auto">
+          <KIND_OF_PART>HD HGCROC</KIND_OF_PART>
+          <SERIAL_NUMBER>ICRH3b012179 2824</SERIAL_NUMBER>
+        </PART>
+        <PART mode="auto">
+          <KIND_OF_PART>HD HGCROC</KIND_OF_PART>
+          <SERIAL_NUMBER>ICRH3b012233 2824</SERIAL_NUMBER>
+        </PART>
+        <PART mode="auto">
+          <KIND_OF_PART>HD HGCROC</KIND_OF_PART>
+          <SERIAL_NUMBER>ICRH3b012170 2824</SERIAL_NUMBER>
+        </PART>
+        <PART mode="auto">
+          <KIND_OF_PART>HD HGCROC</KIND_OF_PART>
+          <SERIAL_NUMBER>ICRH3b012176 2824</SERIAL_NUMBER>
+        </PART>
+        <PART mode="auto">
+          <KIND_OF_PART>HGC_LDO_HighBin</KIND_OF_PART>
+          <SERIAL_NUMBER>QP00555</SERIAL_NUMBER>
+        </PART>
+        <PART mode="auto">
+          <KIND_OF_PART>HGC_LDO_HighBin</KIND_OF_PART>
+          <SERIAL_NUMBER>QP00554</SERIAL_NUMBER>
+        </PART>
+        <PART mode="auto">
+          <KIND_OF_PART>HGC_LDO_HighBin</KIND_OF_PART>
+          <SERIAL_NUMBER>QP00558</SERIAL_NUMBER>
+        </PART>
+      </CHILDREN>
+    </PART>
+  </PARTS>
+</ROOT>
