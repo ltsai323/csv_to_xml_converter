@@ -6,3 +6,10 @@ The templates shows the xml format. Here you need to fill the code pieces inside
 
 ## kind_of_parts.csv
 Downloaded from [useful-scripts](https://gitlab.cern.ch/hgcal-database/usefull-scripts/-/blob/master/data/kind_of_parts.csv)
+
+# Usage
+```
+make help
+```
+You will be hinted how to run this code
+
