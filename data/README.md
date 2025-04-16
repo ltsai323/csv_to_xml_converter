@@ -16,12 +16,12 @@ Create parts declares an new entry on database for further use. Once operator wa
 |--------------|-------------|
 |Bare hexaboard| No daughter |
 |Assembled hexaboared| bare hexaboard|
-|                    | HGC ROC|
-|                    | LDO|
+|Assembled hexaboared| HGC ROC|
+|Assembled hexaboared| LDO|
 |ProtoModule         | Baseplate|
-|                    | Sensor|
+|ProtoModule         | Sensor|
 |SiModule            | ProtoModule|
-|                    | Assembled hexaboard|
+|SiModule            | Assembled hexaboard|
 
 ### Visual Inspection
 * bare hexaboard
