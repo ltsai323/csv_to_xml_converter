@@ -221,7 +221,7 @@ if __name__ == "__main__":
     xmlTEMPLATE = sys.argv[1]
     inCSVfile   = sys.argv[2]
     outputTAG   = sys.argv[3]
-    startIDX    = 0 if len(sys.argv) < 4+1 else int(sys.argv[4])
+    startIDX    = 1 if len(sys.argv) < 4+1 else int(sys.argv[4])
 
     
     if startIDX<=0: show_first_10_lines(inCSVfile)
