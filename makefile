@@ -3,13 +3,9 @@
 
 
 # Variable check function (shell snippet)
-check_vars = \
-	if [ -z "$($(1))" ] || [ -z "$($(2))" ] || [ -z "$($(3))" ]; then \
-		echo "❌ Missing required variables: $(1) and/or $(2) and/or $(3)"; \
-		echo "👉 Showing help:"; \
-		$(MAKE) help; \
-		exit 1; \
-	fi
+check_defined = \
+    $(strip $(foreach 1,$1, \
+    $(call __check_defined,$1,$(strip $(value 2)))))
 
 
 timeSTAMP=$$(date "+%Y%m%d_%H%M")
@@ -21,25 +17,31 @@ _ = _
 
 
 barevis: ## visual inspection of BareHexaboard. Used xml template data/template_BareHex_VisInspection.xml [inCSV=testsample_createXML_AssembledHexaBoard.csv]
-	@$(call check_vars,inCSV,_,_)
+	$(call check_defined, inCSV)
 	python3 createXML.py data/template_BareHex_VisInspection.xml $(inCSV) BareVis_$(timeSTAMP)
 hexcreate: ## Create parts of AssembledHexaboard. Used xml template data/template_BareHex_VisInspection.xml [inCSV=testsample_createXML_AssembledHexaBoard.csv]
-	@$(call check_vars,inCSV,_,_)
-	python3 createXML.py data/template_BareHex_VisInspection.xml $(inCSV) NewHex_$(timeSTAMP)
+	$(call check_defined, inCSV)
+	python3 createXML.py data/template_AssembledHexaboard_CreatePart.xml $(inCSV) NewHex_$(timeSTAMP)
 hexvis: ## visual inspection of AssembledHexaboard. Used xml template data/template_BareHex_VisInspection.xml [inCSV=testsample_createXML_AssembledHexaBoard.csv]
-	@$(call check_vars,inCSV,_,_)
+	$(call check_defined, inCSV)
 	python3 createXML.py data/template_BareHex_VisInspection.xml $(inCSV) HexVis_$(timeSTAMP)
 protomodulecreate: ## Create parts of proto module. Used xml template data/template_ProtoModule_CreatePart.xml  [inCSV=testsample_createXML_AssembledHexaBoard.csv]
+	$(call check_defined, inCSV)
 	python3 createXML.py data/template_ProtoModule_CreatePart.xml $(inCSV) NewProtoModule_$(timeSTAMP)
 simodulecreate: ## Create parts of silicon module. Used xml template data/template_SiModule_CreatePart.xml  [inCSV=testsample_createXML_AssembledHexaBoard.csv]
+	$(call check_defined, inCSV)
 	python3 createXML.py data/template_SiModule_CreatePart.xml $(inCSV) NewProtoModule_$(timeSTAMP)
 
 
 general: ## Create parts of AssembledHexaboard [inXML=data/template_AssembledHexaboard_CreatePart.xml] [inCSV=testsample_createXML_AssembledHexaBoard.csv] [oTAG=tag]
-	@$(call check_vars,inXML,inCSV,oTAG)
-	python3 createXML.py $(inXML) $(inCSV) $(oTAG)
+	$(call check_defined, inCSV)
+	$(call check_defined, inXML)
+	$(call check_defined, oTAG)
+	python3 createXML.py "$(inXML)" "$(inCSV)" "$(oTAG)"_$(timeSTAMP)
 check: ## check xml content [inXML=data/template_AssembledHexaboard_CreatePart.xml] [inCSV=testsample_createXML_AssembledHexaBoard.csv] [oTAG=tag]
-	@$(call check_vars,inXML,inCSV,oTAG)
+	$(call check_defined, inCSV)
+	$(call check_defined, inXML)
+	$(call check_defined, oTAG)
 	python3 createXML.py $(inXML) $(inCSV) $(oTAG) 0
 
 
@@ -48,6 +50,16 @@ example: ## a example code to execute
 
 
 
+extract: ## extract all LDO in csv file [inCSV=data.csv][oTAG=hhhi]
+	$(call check_defined, inCSV)
+	$(call check_defined, oTAG)
+	python3 extract_value_in_csv.py LDO $(oTAG) $(inCSV)
+	python3 extract_value_in_csv.py HGCROC $(oTAG) $(inCSV)
+
+
+
+clean: ## clean outputs/*.xml
+	/bin/rm outputs/*.xml || echo workspace is empty
 
 ##@ Utility
 IN_ARGS = [arg]
