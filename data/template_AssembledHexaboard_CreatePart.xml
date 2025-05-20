@@ -17,38 +17,92 @@
                  <PART mode="auto">
                     <KIND_OF_PART>FindKindOfPartIfBarcodeExist( CSV_COLUMN(0,'IC1'))</KIND_OF_PART>
                     <SERIAL_NUMBER>CSV_COLUMN(0,'IC1')</SERIAL_NUMBER>
+                    <PREDEFINED_ATTRIBUTES>
+                      <ATTRIBUTE>
+                        <NAME>FindHGCROCname( CSV_COLUMN(0,'Assembled hexaboard serial number'))</NAME>
+                        <VALUE>FindHGCROCvalue( CSV_COLUMN(0,'Assembled hexaboard serial number'), 'IC1')</VALUE>
+                      </ATTRIBUTE>
+                    </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
                     <KIND_OF_PART>FindKindOfPartIfBarcodeExist( CSV_COLUMN(0,'IC2'))</KIND_OF_PART>
                     <SERIAL_NUMBER>CSV_COLUMN(0,'IC2')</SERIAL_NUMBER>
+                    <PREDEFINED_ATTRIBUTES>
+                      <ATTRIBUTE>
+                        <NAME>FindHGCROCname( CSV_COLUMN(0,'Assembled hexaboard serial number'))</NAME>
+                        <VALUE>FindHGCROCvalue( CSV_COLUMN(0,'Assembled hexaboard serial number'), 'IC2')</VALUE>
+                      </ATTRIBUTE>
+                    </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
                     <KIND_OF_PART>FindKindOfPartIfBarcodeExist( CSV_COLUMN(0,'IC3'))</KIND_OF_PART>
                     <SERIAL_NUMBER>CSV_COLUMN(0,'IC3')</SERIAL_NUMBER>
+                    <PREDEFINED_ATTRIBUTES>
+                      <ATTRIBUTE>
+                        <NAME>FindHGCROCname( CSV_COLUMN(0,'Assembled hexaboard serial number'))</NAME>
+                        <VALUE>FindHGCROCvalue( CSV_COLUMN(0,'Assembled hexaboard serial number'), 'IC3')</VALUE>
+                      </ATTRIBUTE>
+                    </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
                     <KIND_OF_PART>FindKindOfPartIfBarcodeExist( CSV_COLUMN(0,'IC4'))</KIND_OF_PART>
                     <SERIAL_NUMBER>CSV_COLUMN(0,'IC4')</SERIAL_NUMBER>
+                    <PREDEFINED_ATTRIBUTES>
+                      <ATTRIBUTE>
+                        <NAME>FindHGCROCname( CSV_COLUMN(0,'Assembled hexaboard serial number'))</NAME>
+                        <VALUE>FindHGCROCvalue( CSV_COLUMN(0,'Assembled hexaboard serial number'), 'IC4')</VALUE>
+                      </ATTRIBUTE>
+                    </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
                     <KIND_OF_PART>FindKindOfPartIfBarcodeExist( CSV_COLUMN(0,'IC5'))</KIND_OF_PART>
                     <SERIAL_NUMBER>CSV_COLUMN(0,'IC5')</SERIAL_NUMBER>
+                    <PREDEFINED_ATTRIBUTES>
+                      <ATTRIBUTE>
+                        <NAME>FindHGCROCname( CSV_COLUMN(0,'Assembled hexaboard serial number'))</NAME>
+                        <VALUE>FindHGCROCvalue( CSV_COLUMN(0,'Assembled hexaboard serial number'), 'IC5')</VALUE>
+                      </ATTRIBUTE>
+                    </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
                     <KIND_OF_PART>FindKindOfPartIfBarcodeExist( CSV_COLUMN(0,'IC6'))</KIND_OF_PART>
                     <SERIAL_NUMBER>CSV_COLUMN(0,'IC6')</SERIAL_NUMBER>
+                    <PREDEFINED_ATTRIBUTES>
+                      <ATTRIBUTE>
+                        <NAME>FindHGCROCname( CSV_COLUMN(0,'Assembled hexaboard serial number'))</NAME>
+                        <VALUE>FindHGCROCvalue( CSV_COLUMN(0,'Assembled hexaboard serial number'), 'IC6')</VALUE>
+                      </ATTRIBUTE>
+                    </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
                     <KIND_OF_PART>FindKindOfPartIfBarcodeExist(CSV_COLUMN(0,'LDO1'))</KIND_OF_PART>
                     <SERIAL_NUMBER>CSV_COLUMN(0,'LDO1')</SERIAL_NUMBER>
+                    <PREDEFINED_ATTRIBUTES>
+                      <ATTRIBUTE>
+                        <NAME>LDO Position</NAME>
+                        <VALUE>FindLDOvalue( CSV_COLUMN(0,'Assembled hexaboard serial number'), 'LDO1')</VALUE>
+                      </ATTRIBUTE>
+                    </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
                     <KIND_OF_PART>FindKindOfPartIfBarcodeExist(CSV_COLUMN(0,'LDO2'))</KIND_OF_PART>
                     <SERIAL_NUMBER>CSV_COLUMN(0,'LDO2')</SERIAL_NUMBER>
+                    <PREDEFINED_ATTRIBUTES>
+                      <ATTRIBUTE>
+                        <NAME>LDO Position</NAME>
+                        <VALUE>FindLDOvalue( CSV_COLUMN(0,'Assembled hexaboard serial number'), 'LDO2')</VALUE>
+                      </ATTRIBUTE>
+                    </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
                     <KIND_OF_PART>FindKindOfPartIfBarcodeExist(CSV_COLUMN(0,'LDO3'))</KIND_OF_PART>
                     <SERIAL_NUMBER>CSV_COLUMN(0,'LDO3')</SERIAL_NUMBER>
+                    <PREDEFINED_ATTRIBUTES>
+                      <ATTRIBUTE>
+                        <NAME>LDO Position</NAME>
+                        <VALUE>FindLDOvalue( CSV_COLUMN(0,'Assembled hexaboard serial number'), 'LDO3')</VALUE>
+                      </ATTRIBUTE>
+                    </PREDEFINED_ATTRIBUTES>
                 </PART>
             </CHILDREN>
         </PART>
