@@ -203,7 +203,7 @@ class kind_of_part_mapping:
                 reader = csv.DictReader(f)
                 for entry in reader:
                     # load entry in CSV file and add additional column 'code'.
-                    code = entry['LABEL_TYPECODE'].upper().replace('-','')
+                    code = entry['LABEL_TYPECODE'].replace('-','')
                     if code == '': continue
                     entry['code'] = code
                     if code in self.codes_history:
@@ -215,17 +215,18 @@ class kind_of_part_mapping:
 
         info(f'[Initialized] kind_of_part_mapping() correctly activated')
     def Get(self, barcode):
-        if '320' != barcode[0:3]: raise IOError(f'[InvalidBarcode] {barcode}')
+        #if '320' != barcode[0:3]: raise IOError(f'[InvalidBarcode] {barcode}')
         
         try:
-            barcode_piece = barcode[3:-5]
-            if len(barcode_piece) < 2: raise IndexError()
+            barcode_without_number = barcode[:-4] 
+            if len(barcode_without_number) < 2: raise IndexError()
         except IndexError as e:
-            raise IndexError(f'\n\n[InvalidBARCODE] input barcode "{barcode}" cannot get correct barcode piece from barcode[3:-5]\n\n') from e
+            raise IndexError(f'\n\n[InvalidBARCODE] input barcode "{barcode}" cannot get correct barcode piece from barcode[:-5]\n\n') from e
         for entry in self.entries:
-            if entry['code'] in barcode_piece:
+            BUG(entry)
+            if entry['code'] in barcode_without_number:
                 if entry['code'] == "": continue
-                BUG(f'[SearchRes] KindOfPart got barcode "{barcode_piece}" matching "{entry["code"]}" so the result is "{entry["DISPLAY_NAME"]}"')
+                BUG(f'[SearchRes] KindOfPart got barcode "{barcode_without_number}" matching "{entry["code"]}" so the result is "{entry["DISPLAY_NAME"]}"')
                 return entry['DISPLAY_NAME']
         err_mesg = f'[NoSearchResult] kind_of_part_mapping() is unable to match barcode "{ barcode }".'
         if DEBUG_MODE:
@@ -245,6 +246,12 @@ def FindKindOfPart(BARCODEorSERIALNUMBER:str):
         return kindofpart_sources.Get(BARCODEorSERIALNUMBER)
     except AttributeError as e:
         raise RuntimeError(f'[FindKindOfPart] kindofpart_sources is not initialized, Use init_kind_of_part_searcher() before use this function\n\n\n')
+def FindKindOfPartIfBarcodeExist(BARCODEorSERIALNUMBER:str):
+    global kindofpart_sources
+    try:
+        return kindofpart_sources.Get(BARCODEorSERIALNUMBER) if BARCODEorSERIALNUMBER != '' else ''
+    except AttributeError as e:
+        raise RuntimeError(f'[FindKindOfPart] kindofpart_sources is not initialized, Use init_kind_of_part_searcher() before use this function\n\n\n')
 
 def FindKindOfPart_AncientCoding(BARCODEorSERIALNUMBER:str):
     new_barcode = '320'+BARCODEorSERIALNUMBER
@@ -257,6 +264,13 @@ def testfunc_FindKindOfPart():
     serial_number = '320070100300068'
     info(FindKindOfPart(serial_number))
     exit()
+
+def testfunc_FindKindOfPart2():
+    kopSOURCEfiles = ['data/Kind_of_parts.csv', 'data/Kind_of_parts_appendix.csv' ]
+    init_kind_of_part_searcher(kopSOURCEfiles)
+
+    serial_number = 'LDO 10 001463'
+    info(FindKindOfPart(serial_number))
 
     
 def TranslateSensorBarcode(density:str, sensorBARCODE:str):
@@ -328,6 +342,7 @@ def ICID(icTYPE,icID):
             ictype = icTYPE.lower()
             if ictype == 'v3a': return icID # asdf
             if ictype == 'v3b': return f'ICRH{DEFINED_ICTYPE[ictype]}{icID}'
+            if ictype == 'v3c': return icID
             BUG(f'[Blank ICID] type {icTYPE} and ic ID {icID} finds no matching. Empty field filled')
         else:
             BUG(f'[NoICID] Skip this entry')
@@ -336,6 +351,7 @@ def ICID(icTYPE,icID):
     except KeyError as e:
         raise RuntimeError(f'[Invalid IC ID] input ID "{ v }" in wrong format. Please check it')
 def FillValueIfColumnExisted(val, col):
+    BUG(f'[FillValueIfColumnExisted] got column "{col}" so return val "{val if col != "" else ""}"')
     return val if col != '' else ''
 
 def BatchNumber(v):
@@ -382,5 +398,6 @@ if __name__ == "__main__":
     #testfunc_init_csv_column_definition()
     #testfunc_read_csv_entry()
     #testfunc_FindKindOfPart()
+    testfunc_FindKindOfPart2()
     pass
 
