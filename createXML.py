@@ -104,7 +104,7 @@ def modify_all_elements(data):
             return data
 def remove_empty_entries_from_list(nested_dict):
     """
-    Remove dictionaries in a list if all values are empty.
+    Remove dictionaries in a list if no barcode in this entry.
 
     Args:
         nested_dict (dict): The nested dictionary to process.
@@ -113,7 +113,8 @@ def remove_empty_entries_from_list(nested_dict):
         dict: The updated dictionary with empty entries removed.
     """
     def is_dict_empty(d):
-        return all(v in [None, "", []] for v in d.values())
+        #return all(v in [None, "", []] for v in d.values())
+        return False if d.get('SERIAL_NUMBER') else True
     
     def clean_children(children):
         if isinstance(children, list):
