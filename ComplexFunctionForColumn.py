@@ -176,8 +176,9 @@ def get_time(timeSTR):
     try:
         locale.setlocale(locale.LC_TIME, 'zh_TW.UTF-8')
         return datetime.datetime.strptime(timeSTR, "%Y/%m/%d %p %I:%M:%S")
-    except ValueError as e:
-        raise ValueError(f'unable to get time from "{timeSTR}"') from e
+    except ValueError as e: pass
+    #except ValueError as e:
+    #    raise ValueError(f'unable to get time from "{timeSTR}"') from e
 
     info(f'[PatternRecognizationFailed] Input string "{ timeSTR }" cannot be converted to timestemp. Use current time')
     return datetime.datetime.now()
@@ -215,7 +216,7 @@ class kind_of_part_mapping:
 
         info(f'[Initialized] kind_of_part_mapping() correctly activated')
     def Get(self, barcode):
-        #if '320' != barcode[0:3]: raise IOError(f'[InvalidBarcode] {barcode}')
+        isLDOorHGCROC = True if '320' != barcode[0:3] else False
         
         try:
             barcode_without_number = barcode[:-4] 
@@ -223,11 +224,16 @@ class kind_of_part_mapping:
         except IndexError as e:
             raise IndexError(f'\n\n[InvalidBARCODE] input barcode "{barcode}" cannot get correct barcode piece from barcode[:-5]\n\n') from e
         for entry in self.entries:
-            BUG(entry)
             if entry['code'] in barcode_without_number:
                 if entry['code'] == "": continue
                 BUG(f'[SearchRes] KindOfPart got barcode "{barcode_without_number}" matching "{entry["code"]}" so the result is "{entry["DISPLAY_NAME"]}"')
-                return entry['DISPLAY_NAME']
+                display_name = entry['DISPLAY_NAME']
+                if isLDOorHGCROC:
+                    if 'LDO' in display_name: return display_name
+                    if 'HGCROC' in display_name: return display_name
+                if not isLDOorHGCROC:
+                    if 'LDO' not in display_name and 'HGCROC' not in display_name: return display_name
+
         err_mesg = f'[NoSearchResult] kind_of_part_mapping() is unable to match barcode "{ barcode }".'
         if DEBUG_MODE:
             BUG(err_mesg)
@@ -272,6 +278,64 @@ def testfunc_FindKindOfPart2():
     serial_number = 'LDO 10 001463'
     info(FindKindOfPart(serial_number))
 
+#### https://confluence.cern.ch/pages/viewpage.action?pageId=576651582
+HGCROC_ATTRIBUTE_WITHOUT_NUMBER = {
+        'LD Full': 'M',
+        'LD Five': 'IC',
+        'LD Left': 'M',
+        'LD Right': 'M',
+        'LD Top': 'IC',
+        'LD Bottom': 'M',
+
+        'HD Full': 'IC',
+        'HD Left': 'IC',
+        'HD Right': 'IC',
+        'HD Top': 'IC',
+        'HD Bottom': 'M'
+        }
+def FindHGCROCvalue( barcodeOFboard, HGCROCcolumnNAME):
+    # barcodeOFboard records the barcode of assembled hexaboard.
+    # HGCROCcolumnNAME puts "IC3". Not to put barcode of HGCROC 
+    boardKOP = FindKindOfPart(barcodeOFboard)
+    HGCROC_digit = int(HGCROCcolumnNAME[-1]) # last value is a number
+    for board_type, HGCROCtag in HGCROC_ATTRIBUTE_WITHOUT_NUMBER.items():
+        if board_type not in boardKOP: continue
+        return f'{HGCROCtag}{HGCROC_digit}'
+    return f'Input HGCROC "{ HGCROCcolumnNAME }" is invalid'
+def FindHGCROCname( barcodeOFboard ):
+    # barcodeOFboard records the barcode of assembled hexaboard.
+    # the barcode is to check HD or LD
+    boardKOP = FindKindOfPart(barcodeOFboard)
+    if 'HD' in boardKOP: return 'HD HGCROC Position'
+    if 'LD' in boardKOP: return 'LD HGCROC Position'
+    return 'ERROR. FindHGCROCname() cannot get "HD" or "LD" in barcode "{barcodeOFboard}"'
+
+
+LDO_ATTRIBUTE_WITHOUT_NUMBER = {
+        'LD Full': 'U',
+        'LD Five': 'IC',
+        'LD Left': 'U',
+        'LD Right': 'U',
+        'LD Top': 'IC',
+        'LD Bottom': 'IC',
+
+        'HD Full': 'reg',
+        'HD Left': 'IC',
+        'HD Right': 'IC',
+        'HD Top': 'IC',
+        'HD Bottom': 'reg'
+        }
+def FindLDOvalue( barcodeOFboard, LDOcolumnNAME):
+    # barcodeOFboard records the barcode of assembled hexaboard.
+    # LDOcolumnNAME puts "LDO3". Not to put barcode of LDO
+    boardKOP = FindKindOfPart(barcodeOFboard)
+    LDO_digit = int(LDOcolumnNAME[-1]) # last value is a number
+    for board_type, LDOtag in LDO_ATTRIBUTE_WITHOUT_NUMBER.items():
+        if board_type not in boardKOP: continue
+        return f'{LDOtag}{LDO_digit}'
+    return f'Input LDO "{ LDOcolumnNAME }" is invalid'
+    
+    
     
 def TranslateSensorBarcode(density:str, sensorBARCODE:str):
     ''' 600036_2 '''
