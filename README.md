@@ -13,3 +13,11 @@ make help
 ```
 You will be hinted how to run this code
 
+
+
+## ToDo list
+- [ ] Upload collectLDO_v3A.csv
+Checking LDO and HGCROC on CMSR
+- [ ] Upload collectLDO_v3B.csv
+Checking LDO and HGCROC on CMSR or not.
+- [x] Upload collectLDO_v3C.csv
