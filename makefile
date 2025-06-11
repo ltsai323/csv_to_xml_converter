@@ -24,7 +24,7 @@ hexcreate: ## Create parts of AssembledHexaboard. Used xml template data/templat
 	python3 createXML.py data/template_AssembledHexaboard_CreatePart.xml $(inCSV) NewHex_$(timeSTAMP)
 hexvis: ## visual inspection of AssembledHexaboard. Used xml template data/template_BareHex_VisInspection.xml [inCSV=testsample_createXML_AssembledHexaBoard.csv]
 	$(call check_defined, inCSV)
-	python3 createXML.py data/template_BareHex_VisInspection.xml $(inCSV) HexVis_$(timeSTAMP)
+	python3 createXML.py data/template_AssembledHexaboard_VisInspection.xml $(inCSV) HexVis_$(timeSTAMP)
 protomodulecreate: ## Create parts of proto module. Used xml template data/template_ProtoModule_CreatePart.xml  [inCSV=testsample_createXML_AssembledHexaBoard.csv]
 	$(call check_defined, inCSV)
 	python3 createXML.py data/template_ProtoModule_CreatePart.xml $(inCSV) NewProtoModule_$(timeSTAMP)

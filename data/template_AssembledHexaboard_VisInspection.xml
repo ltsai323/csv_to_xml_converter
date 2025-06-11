@@ -6,7 +6,8 @@
         <NAME>Assembled Hexaboard Visual Inspection</NAME>
     </TYPE>
     <RUN>
-        <RUN_NAME>Visual inspection of assembled hexaboard</RUN_NAME>
+        <RUN_TYPE>Assembled Hexaboard Visual Inspection</RUN_TYPE>
+        <RUN_NUMBER>RunNumber( TimeStamp() )</RUN_NUMBER>
         <RUN_BEGIN_TIMESTAMP>TimeStamp()</RUN_BEGIN_TIMESTAMP>
         <RUN_END_TIMESTAMP>TimeStamp()</RUN_END_TIMESTAMP>
         <INITIATED_BY_USER>ltsai</INITIATED_BY_USER>
@@ -30,19 +31,10 @@
         <TEST_DATE>TimeStampConv( CSV_COLUMN(0,'Timestamp'))</TEST_DATE>
         <HGCROC_TYPE>CSV_COLUMN(0,'HGCROC chip version')</HGCROC_TYPE>
         <HGCROC_ROTATION>CSV_COLUMN(0,'Visual inspection [HGCROC chip rotation]')</HGCROC_ROTATION>
-        <HGCROC_POS_0>ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC1'))</HGCROC_POS_0>
-        <HGCROC_POS_1>ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC2'))</HGCROC_POS_1>
-        <HGCROC_POS_2>ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC3'))</HGCROC_POS_2>
-        <HGCROC_POS_3>ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC4'))</HGCROC_POS_3>
-        <HGCROC_POS_4>ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC5'))</HGCROC_POS_4>
-        <HGCROC_POS_5>ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC6'))</HGCROC_POS_5>
-        <LDO_0>CSV_COLUMN(0,'LDO1')</LDO_0>
-        <LDO_1>CSV_COLUMN(0,'LDO2')</LDO_1>
-        <LDO_2>CSV_COLUMN(0,'LDO3')</LDO_2>
         <CONNECTORS>CSV_COLUMN(0,'Visual inspection [Connector]')</CONNECTORS>
         <PASSIVE_COMPONENTS>CSV_COLUMN(0,'Visual inspection [Component]')</PASSIVE_COMPONENTS>
-        <PWR_ON_CURRENT>CSV_COLUMN(0,'Power-on current')</PWR_ON_CURRENT>
-        <OPERATION_CURRENT>CSV_COLUMN(0,'Operation current')</OPERATION_CURRENT>
+        <PWR_ON_CURRENT>AveragedIf2Val( CSV_COLUMN(0,'Power-on current') )</PWR_ON_CURRENT>
+        <OPERATION_CURRENT>AveragedIf2Val( CSV_COLUMN(0,'Operation current') )</OPERATION_CURRENT>
         <CONFIGURATION_STATUS>CSV_COLUMN(0,'Function [Configuration status]')</CONFIGURATION_STATUS>
         <DAQ_LINES_STATUS>CSV_COLUMN(0,'Function [DAQ links status]')</DAQ_LINES_STATUS>
 
