@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ROOT xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PARTS>
+		<PART mode="auto">
+			<KIND_OF_PART>EM 200um Si ProtoModule HD Full</KIND_OF_PART>
+			<SERIAL_NUMBER>320PHF2WCNT0068</SERIAL_NUMBER>
+			<BARCODE>320PHF2WCNT0068</BARCODE>
+			<LOCATION>NTU</LOCATION>
+			<INSTITUTION>National Taiwan University</INSTITUTION>
+			<RECORD_INSERTION_USER>ltsai</RECORD_INSERTION_USER>
+			<MANUFACTURER>NTU</MANUFACTURER>
+			<CHILDREN>
+				<PART mode="auto">
+					<KIND_OF_PART>CuW/Kapton Baseplate HD Full</KIND_OF_PART>
+					<SERIAL_NUMBER>320BAFHWKA00191</SERIAL_NUMBER>
+				</PART>
+				<PART mode="auto">
+					<KIND_OF_PART>200um Si Sensor HD Full</KIND_OF_PART>
+					<SERIAL_NUMBER>250106_0</SERIAL_NUMBER>
+				</PART>
+			</CHILDREN>
+		</PART>
+
+	</PARTS>
+</ROOT>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ROOT xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PARTS>
+		<PART mode="auto">
+			<KIND_OF_PART>EM 200um Si Module HD Full</KIND_OF_PART>
+			<SERIAL_NUMBER>320MHF2WCNT0068</SERIAL_NUMBER>
+			<BARCODE>320MHF2WCNT0068</BARCODE>
+			<LOCATION>NTU</LOCATION>
+			<INSTITUTION>National Taiwan University</INSTITUTION>
+			<MANUFACTURER>NTU</MANUFACTURER>
+		<CHILDREN>
+		<PART mode="auto">
+			<KIND_OF_PART>EM 200um Si ProtoModule HD Full</KIND_OF_PART>
+			<SERIAL_NUMBER>320PHF2WCNT0068</SERIAL_NUMBER>
+		</PART>
+		<PART mode="auto">
+			<KIND_OF_PART>Hexaboard HD Full</KIND_OF_PART>
+			<SERIAL_NUMBER>320XHF4CPM00176</SERIAL_NUMBER>
+		</PART>
+		</CHILDREN>
+		</PART>
+	</PARTS>
+</ROOT>

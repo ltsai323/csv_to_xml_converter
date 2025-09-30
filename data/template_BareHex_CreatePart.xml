@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ROOT xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <PARTS>
+        <PART mode="auto">
+            <KIND_OF_PART>FindKindOfPart(CSV_COLUMN(0,'Bare serial number'))</KIND_OF_PART>
+            <SERIAL_NUMBER>CSV_COLUMN(0,'Bare serial number')</SERIAL_NUMBER>
+            <VERSION>CSV_COLUMN(0,'Version')</VERSION>
+            <MANUFACTURER>CSV_COLUMN(0,'Manufacturer')</MANUFACTURER>
+            <BATCH_NUMBER>CSV_COLUMN(0,'Batch')</BATCH_NUMBER>
+            <INSTITUTION>National Taiwan University</INSTITUTION>
+            <LOCATION>NTU</LOCATION>
+            <COMMENT_DESCRIPTION>Bare hexaboard upload</COMMENT_DESCRIPTION>
+        </PART>
+    </PARTS>
+</ROOT>
