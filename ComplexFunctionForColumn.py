@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
+import logging
+import sys
+
+log = logging.getLogger(__name__)
+import os
+DEBUG_MODE = True if os.environ.get('LOG_LEVEL', 'INFO') == 'DEBUG' else False
+
 import csv
-FILE_IDENTIFIER = 'ComplexFunctionForColumn.py'
-DEBUG_MODE = False
-def BUG(mesg):
-    if DEBUG_MODE:
-        print(f'b-{FILE_IDENTIFIER}@ {mesg}')
-def info(mesg):
-    print(f'i-{FILE_IDENTIFIER}@ {mesg}')
-def warning(mesg):
-    print(f'WARNING-{FILE_IDENTIFIER}@ {mesg}')
 
 
 from collections import namedtuple
@@ -51,7 +49,7 @@ def testfunc_csv_column_idx():
     ]
     my_column = csv_column(0, 'CERN ID')
     theIDX = csv_column_idx(my_column)
-    info(f'[testResult] {theIDX == 0}')
+    log.info(f'[testResult] {theIDX == 0}')
     exit()
 
 def init_csv_column_definition(csvFILE:str, evtSTARTidx:int):
@@ -84,7 +82,7 @@ def testfunc_init_csv_column_definition():
     my_column_idx5 = csv_column(2, '拍照')
     idx1 = csv_column_idx(my_column_idx1)
     idx5 = csv_column_idx(my_column_idx5)
-    info(f'[testResult] {idx1==1 and idx5==5}')
+    log.info(f'[testResult] {idx1==1 and idx5==5}')
     exit()
 
 def set_csv_entry(csvENTRY):
@@ -121,12 +119,12 @@ def testfunc_read_csv_entry():
     idx5 = csv_column_idx(my_column_idx5)
     with open(inFILE, 'r') as f:
         reader = csv.reader(f)
-        info(type(reader))
+        log.info(type(reader))
 
         for lineIdx, line in enumerate(reader):
             if lineIdx < startIDX: continue
             set_csv_entry(line)
-            info(f'[Entry] batch number {get_value_from_csv_entry(idx1)} and photo {get_value_from_csv_entry(idx5)}')
+            log.info(f'[Entry] batch number {get_value_from_csv_entry(idx1)} and photo {get_value_from_csv_entry(idx5)}')
 
 def CSV_COLUMN(iLAYER:int,columnNAME:str):
     idx = csv_column_idx( csv_column(iLAYER=iLAYER, columnNAME=columnNAME) )
@@ -180,7 +178,7 @@ def get_time(timeSTR):
     #except ValueError as e:
     #    raise ValueError(f'unable to get time from "{timeSTR}"') from e
 
-    info(f'[PatternRecognizationFailed] Input string "{ timeSTR }" cannot be converted to timestemp. Use current time')
+    log.info(f'[PatternRecognizationFailed] Input string "{ timeSTR }" cannot be converted to timestemp. Use current time')
     return datetime.datetime.now()
 def TimeStampConv(timeSTAMP:str):
     return get_time(timeSTAMP)
@@ -199,7 +197,7 @@ class kind_of_part_mapping:
         self.entries = []
         self.codes_history = set()
         for csvFILE in csvFILEs:
-            info(f'[LoadKindOfPart] file "{ csvFILE }" loaded.')
+            log.info(f'[LoadKindOfPart] file "{ csvFILE }" loaded.')
             with open(csvFILE, 'r') as f:
                 reader = csv.DictReader(f)
                 for entry in reader:
@@ -208,13 +206,13 @@ class kind_of_part_mapping:
                     if code == '': continue
                     entry['code'] = code
                     if code in self.codes_history:
-                        warning(f'[Duplicated KindOfPart] Got duplicated code "{ code }" in entry "{ entry }". Skip it')
+                        log.warning(f'[Duplicated KindOfPart] Got duplicated code "{ code }" in entry "{ entry }". Skip it')
                         continue
                     self.entries.append(entry)
                     self.codes_history.add(code)
 
 
-        info(f'[Initialized] kind_of_part_mapping() correctly activated')
+        log.info(f'[Initialized] kind_of_part_mapping() correctly activated')
     def Get(self, barcode):
         isLDOorHGCROC = True if '320' != barcode[0:3] else False
         
@@ -226,7 +224,7 @@ class kind_of_part_mapping:
         for entry in self.entries:
             if entry['code'] in barcode_without_number:
                 if entry['code'] == "": continue
-                BUG(f'[SearchRes] KindOfPart got barcode "{barcode_without_number}" matching "{entry["code"]}" so the result is "{entry["DISPLAY_NAME"]}"')
+                log.debug(f'[SearchRes] KindOfPart got barcode "{barcode_without_number}" matching "{entry["code"]}" so the result is "{entry["DISPLAY_NAME"]}"')
                 display_name = entry['DISPLAY_NAME']
                 if isLDOorHGCROC:
                     if 'LDO' in display_name: return display_name
@@ -236,8 +234,8 @@ class kind_of_part_mapping:
 
         err_mesg = f'[NoSearchResult] kind_of_part_mapping() is unable to match barcode "{ barcode }".'
         if DEBUG_MODE:
-            BUG(err_mesg)
-            BUG('[IgnoreEmptyValue] kind_of_part_mapping() puts empty value in this field.')
+            log.debug(err_mesg)
+            log.debug('[IgnoreEmptyValue] kind_of_part_mapping() puts empty value in this field.')
             return ''
         raise IOError(err_mesg)
 
@@ -268,7 +266,7 @@ def testfunc_FindKindOfPart():
     init_kind_of_part_searcher([kop_file])
 
     serial_number = '320070100300068'
-    info(FindKindOfPart(serial_number))
+    log.info(FindKindOfPart(serial_number))
     exit()
 
 def testfunc_FindKindOfPart2():
@@ -276,7 +274,7 @@ def testfunc_FindKindOfPart2():
     init_kind_of_part_searcher(kopSOURCEfiles)
 
     serial_number = 'LDO 10 001463'
-    info(FindKindOfPart(serial_number))
+    log.info(FindKindOfPart(serial_number))
 
 #### https://confluence.cern.ch/pages/viewpage.action?pageId=576651582
 HGCROC_ATTRIBUTE_WITHOUT_NUMBER = {
@@ -374,7 +372,7 @@ def ReplaceBoolToPass(v):
         if v.lower() == 'true':
             return 'Pass'
     except ValueError as e:
-        warning(f'[ValueError] "{ v }" is not a str, a false recorded in event.')
+        log.warning(f'[ValueError] "{ v }" is not a str, a false recorded in event.')
     return 'Fail'
 
 def FlatnessGrading(v):
@@ -386,9 +384,9 @@ def FlatnessGrading(v):
     if v in failed: new_val = 'Fail'
 
     if new_val == 'invalid':
-        info(f'[InvalidFlatnessGrading] Unable to recognize flatness "{ v }" from string.')
+        log.info(f'[InvalidFlatnessGrading] Unable to recognize flatness "{ v }" from string.')
         new_val = 'Fail'
-    BUG(f'[FlatnessGrading] Got comment "{ v }" so grading "{ new_val }" given.')
+    log.debug(f'[FlatnessGrading] Got comment "{ v }" so grading "{ new_val }" given.')
     return new_val
 def grading(*vLIST):
     raise NotImplementedError('[grading] is a incompleted function. implement it now!')
@@ -407,15 +405,15 @@ def ICID(icTYPE,icID):
             if ictype == 'v3a': return icID # asdf
             if ictype == 'v3b': return f'ICRH{DEFINED_ICTYPE[ictype]}{icID}'
             if ictype == 'v3c': return icID
-            BUG(f'[Blank ICID] type {icTYPE} and ic ID {icID} finds no matching. Empty field filled')
+            log.debug(f'[Blank ICID] type {icTYPE} and ic ID {icID} finds no matching. Empty field filled')
         else:
-            BUG(f'[NoICID] Skip this entry')
+            log.debug(f'[NoICID] Skip this entry')
         return ''
 
     except KeyError as e:
         raise RuntimeError(f'[Invalid IC ID] input ID "{ v }" in wrong format. Please check it')
 def FillValueIfColumnExisted(val, col):
-    BUG(f'[FillValueIfColumnExisted] got column "{col}" so return val "{val if col != "" else ""}"')
+    log.debug(f'[FillValueIfColumnExisted] got column "{col}" so return val "{val if col != "" else ""}"')
     return val if col != '' else ''
 
 def BatchNumber(v):
@@ -439,7 +437,7 @@ def BatchNumber(v):
         return batch_number
     if DEBUG_MODE:
         if v == '':
-            BUG(f'[IgnoreEmptyValue] BatchNumber() got empty input. Put empty into field')
+            log.debug(f'[IgnoreEmptyValue] BatchNumber() got empty input. Put empty into field')
             return ''
 
     if len(v) == 4: return v
@@ -451,17 +449,41 @@ OUTPUT_VERSION = '1'
 def set_version(v):
     global OUTPUT_VERSION
     OUTPUT_VERSION = v
-    info(f'[Version] Set output version as {OUTPUT_VERSION}')
+    log.info(f'[Version] Set output version as {OUTPUT_VERSION}')
 def VERSION():
     global OUTPUT_VERSION
     return str(OUTPUT_VERSION)
 
+def CheckValue_In(v:str, fragLIST:list):
+    ''' check the input value in one of fragLIST
+    ex:
+      input value aaa in fragLIST [ "aa", "bbb" ]
+    '''
+    for frag in fragLIST:
+        if frag in v: return True
+    return False
+def CheckValue_NotIn(v:str, fragLIST:list):
+    ''' check the input value not in any of fragLIST
+    ex:
+      input value https://lka.asmdnoun.com//k not in any of fragLIST [ "https", "IGNORE" ]
+    '''
+    for frag in fragLIST:
+        if frag in v: return False
+    return True
 
-if __name__ == "__main__":
+
+
+if __name__ == '__main__':
+    import os
+    loglevel = os.environ.get('LOG_LEVEL', 'INFO') # DEBUG, INFO, WARNING
+    DEBUG_MODE = True if loglevel == 'DEBUG' else False
+    logLEVEL = getattr(logging, loglevel)
+    logging.basicConfig(stream=sys.stdout,level=logLEVEL,
+                        format='[basicCONFIG] %(levelname)s - %(message)s',
+                        datefmt='%H:%M:%S')
+
     #testfunc_csv_column_idx()
     #testfunc_init_csv_column_definition()
     #testfunc_read_csv_entry()
     #testfunc_FindKindOfPart()
     testfunc_FindKindOfPart2()
-    pass
-

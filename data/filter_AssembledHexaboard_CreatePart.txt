@@ -1,0 +1,2 @@
+CheckValue_In( CSV_COLUMN(0,'Half chip damage'),['normal','No'] )
+CheckValue_NotIn( CSV_COLUMN(0,'HGCUI link snapshot'),['https','IGNORE'] )

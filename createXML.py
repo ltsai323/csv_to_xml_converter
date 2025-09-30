@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+import logging
+import sys
+log = logging.getLogger(__name__)
+
 import xml.etree.ElementTree as ET
 import ComplexFunctionForColumn
 DEBUG_MODE = False
@@ -102,6 +107,13 @@ def modify_all_elements(data):
             if '(' in data and "'" in data:
                 print(f'[WARNING] Save string "{ data }" without interpreting.')
             return data
+def pass_event_filter(filterFUNCs):
+    ''' every event filter is AND operation '''
+    for filterFUNC in filterFUNCs:
+        if eval(filterFUNC, {}, vars(ComplexFunctionForColumn)) == False:
+            log.debug(f'[RejectEvent] function {filterFUNC} rejected this event')
+            return False
+    return True
 def remove_empty_entries_from_list(nested_dict):
     """
     Remove dictionaries in a list if no barcode in this entry.
@@ -180,7 +192,7 @@ def get_value_from_key(data, target_key):
     return None
 
 
-def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, version:str='1' ):
+def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, inFILTER:str="", version:str='1' ):
     kopSOURCEfiles = ['data/Kind_of_parts.csv', 'data/Kind_of_parts_appendix.csv' ]
     import IOMgr_CSVinXMLout
     ComplexFunctionForColumn.init_csv_column_definition(inCSVfile, startIDX)
@@ -189,11 +201,18 @@ def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, vers
     with open(xmlTEMPLATE, 'r') as fIN:
         xml_dict_template = xml_to_dict(fIN.read())
 
+    filter_funcs = []
+    if inFILTER:
+        with open(inFILTER,'r') as filterIN:
+            for line in filterIN.readlines():
+                filter_funcs.append(line.strip())
+
     with open(inCSVfile, 'r') as csvFile:
         reader = csv.reader(csvFile)
         for idx, line in enumerate(reader):
             if idx < startIDX: continue # skip the column definition lines
             ComplexFunctionForColumn.set_csv_entry(line)
+            if not pass_event_filter(filter_funcs): continue
             xml_dict_contains_empty = modify_all_elements(xml_dict_template)
             xml_dict = remove_empty_entries_from_list(xml_dict_contains_empty)
 
@@ -211,18 +230,28 @@ def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, vers
             IOMgr_CSVinXMLout.save_as_a_butified_xml_file(xml_root, output_file)
             print(f"[Output] XML file saved to {output_file}")
 
-            if DEBUG_MODE:
-                BUG(f'[DEBUG MODE] Only show one entry for checking')
-                break
+            #if DEBUG_MODE:
+            #    BUG(f'[DEBUG MODE] Only show one entry for checking')
+            #    break
 
 
 
-if __name__ == "__main__":
-    import sys
+
+if __name__ == '__main__':
+    import os
+    loglevel = os.environ.get('LOG_LEVEL', 'INFO') # DEBUG, INFO, WARNING
+    DEBUG_MODE = True if loglevel == 'DEBUG' else False
+    logLEVEL = getattr(logging, loglevel)
+    logging.basicConfig(stream=sys.stdout,level=logLEVEL,
+                        format='[basicCONFIG] %(levelname)s - %(message)s',
+                        datefmt='%H:%M:%S')
+
+
     xmlTEMPLATE = sys.argv[1]
     inCSVfile   = sys.argv[2]
     outputTAG   = sys.argv[3]
-    startIDX    = 1 if len(sys.argv) < 4+1 else int(sys.argv[4])
+    inFILTER    = "" if len(sys.argv) < 4+1 else sys.argv[4]
+    startIDX    = 1 if len(sys.argv) < 5+1 else int(sys.argv[5])
 
     
     if startIDX<=0: show_first_10_lines(inCSVfile)
@@ -235,5 +264,6 @@ if __name__ == "__main__":
             startIDX = startIDX,
             xmlTEMPLATE = xmlTEMPLATE,
             outputTAG = outputTAG,
+            inFILTER = inFILTER,
             version = outputVERSION
             )

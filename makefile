@@ -21,7 +21,7 @@ barevis: ## visual inspection of BareHexaboard. Used xml template data/template_
 	python3 createXML.py data/template_BareHex_VisInspection.xml $(inCSV) BareVis_$(timeSTAMP)
 hexcreate: ## Create parts of AssembledHexaboard. Used xml template data/template_BareHex_VisInspection.xml [inCSV=testsample_createXML_AssembledHexaBoard.csv]
 	$(call check_defined, inCSV)
-	python3 createXML.py data/template_AssembledHexaboard_CreatePart.xml $(inCSV) NewHex_$(timeSTAMP)
+	python3 createXML.py data/template_AssembledHexaboard_CreatePart.xml $(inCSV) NewHex_$(timeSTAMP) data/filter_AssembledHexaboard_CreatePart.txt
 hexvis: ## visual inspection of AssembledHexaboard. Used xml template data/template_BareHex_VisInspection.xml [inCSV=testsample_createXML_AssembledHexaBoard.csv]
 	$(call check_defined, inCSV)
 	python3 createXML.py data/template_AssembledHexaboard_VisInspection.xml $(inCSV) HexVis_$(timeSTAMP)
@@ -33,11 +33,12 @@ simodulecreate: ## Create parts of silicon module. Used xml template data/templa
 	python3 createXML.py data/template_SiModule_CreatePart.xml $(inCSV) NewProtoModule_$(timeSTAMP)
 
 
-general: ## Create parts of AssembledHexaboard [inXML=data/template_AssembledHexaboard_CreatePart.xml] [inCSV=testsample_createXML_AssembledHexaBoard.csv] [oTAG=tag]
-	$(call check_defined, inCSV)
-	$(call check_defined, inXML)
-	$(call check_defined, oTAG)
-	python3 createXML.py "$(inXML)" "$(inCSV)" "$(oTAG)"_$(timeSTAMP)
+general: ## Create parts of AssembledHexaboard [inXML=data/template_AssembledHexaboard_CreatePart.xml] [inCSV=testsample_createXML_AssembledHexaBoard.csv] [oTAG=tag] [inFILTER=data/filter_AssembledHexaboard_CreatePart.txt]
+	$(call check_defined,inCSV)
+	$(call check_defined,inXML)
+	$(call check_defined,oTAG)
+	$(call check_defined,inFILTER)
+	python3 createXML.py "$(inXML)" "$(inCSV)" "$(oTAG)_$(timeSTAMP)" "$(inFILTER)"
 check: ## check xml content [inXML=data/template_AssembledHexaboard_CreatePart.xml] [inCSV=testsample_createXML_AssembledHexaBoard.csv] [oTAG=tag]
 	$(call check_defined, inCSV)
 	$(call check_defined, inXML)
