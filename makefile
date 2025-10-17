@@ -30,7 +30,7 @@ protomodulecreate: ## Create parts of proto module. Used xml template data/templ
 	python3 createXML.py data/template_ProtoModule_CreatePart.xml $(inCSV) NewProtoModule_$(timeSTAMP)
 simodulecreate: ## Create parts of silicon module. Used xml template data/template_SiModule_CreatePart.xml  [inCSV=testsample_createXML_AssembledHexaBoard.csv]
 	$(call check_defined, inCSV)
-	python3 createXML.py data/template_SiModule_CreatePart.xml $(inCSV) NewProtoModule_$(timeSTAMP)
+	python3 createXML.py data/template_SiModule_CreatePart.xml $(inCSV) NewSiModule_$(timeSTAMP)
 
 
 general: ## Create parts of AssembledHexaboard [inXML=data/template_AssembledHexaboard_CreatePart.xml] [inCSV=testsample_createXML_AssembledHexaBoard.csv] [oTAG=tag] [inFILTER=data/filter_AssembledHexaboard_CreatePart.txt]

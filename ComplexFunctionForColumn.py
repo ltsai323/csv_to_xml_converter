@@ -377,8 +377,8 @@ def ReplaceBoolToPass(v):
 
 def FlatnessGrading(v):
     new_val = 'invalid'
-    passed = [ '<0.50', '0.5~1.0', '1.00~1.50', '<0.5', '>1.0', '0.50~1.00', '1.0~1.5' ]
-    failed = [ '1.5~2.0', '2.0~2.5', '2.5~3.0' ]
+    passed = [ '<0.50', '0.5', '0.5~1.0', '1.00~1.50', '<0.5', '>1.0', '0.50~1.00', '1.0~1.5' ]
+    failed = [ '1.5~2.0', '2.0~1.5', '2.0~2.5', '2.5~3.0' ]
 
     if v in passed: new_val = 'Pass'
     if v in failed: new_val = 'Fail'
