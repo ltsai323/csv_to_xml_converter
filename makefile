@@ -16,6 +16,9 @@ timeSTAMP=$$(date "+%Y%m%d_%H%M")
 _ = _
 
 
+barecreate: ## create BareHexaboard. Used xml template data/template_BareHex_VisInspection.xml [inCSV=testsample_createXML_AssembledHexaBoard.csv]
+	$(call check_defined, inCSV)
+	python3 createXML.py data/template_BareHex_CreatePart.xml $(inCSV) NewBare_$(timeSTAMP)
 barevis: ## visual inspection of BareHexaboard. Used xml template data/template_BareHex_VisInspection.xml [inCSV=testsample_createXML_AssembledHexaBoard.csv]
 	$(call check_defined, inCSV)
 	python3 createXML.py data/template_BareHex_VisInspection.xml $(inCSV) BareVis_$(timeSTAMP)
