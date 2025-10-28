@@ -421,8 +421,12 @@ def FillValueIfColumnExisted(val, col):
     return val if col != '' else ''
 
 def AveragedIf2Val(numberSTR):
-    numbers = [ float(n) for n in numberSTR.split('/') ]
-    return sum(numbers) / float(len(numbers))
+    numbers = [ float(n) for n in numberSTR.split('/') if n ]
+    return sum(numbers) / float(len(numbers)) if len(numbers) else 0
+def testAveragedIf2Val():
+    print(AveragedIf2Val('0.22/0.40'))
+    print(AveragedIf2Val(''))
+    print(AveragedIf2Val('33'))
 
 def BatchNumber(v):
     def generate_batch_number(dt=None):
@@ -494,4 +498,5 @@ if __name__ == '__main__':
     #testfunc_init_csv_column_definition()
     #testfunc_read_csv_entry()
     #testfunc_FindKindOfPart()
-    testfunc_FindKindOfPart2()
+    #testfunc_FindKindOfPart2()
+    testAveragedIf2Val()
