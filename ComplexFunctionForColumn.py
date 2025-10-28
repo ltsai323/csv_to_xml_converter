@@ -188,7 +188,7 @@ def RunNumberGenerator(location:str, timeSTAMP ):
         ''' Check location code here https://int2r-shipment.web.cern.ch/locations/ '''
         raise NotImplementedError(f'[InvalidLocation] RunNumberGenerator() got invalid location "{ location }".')
    #now = datetime.datetime.now()
-    now = timeSTAMP
+    now = get_time(timeSTAMP)
     return now.strftime(f"{RUN_NUMBER_LOCATION[location]}%y%m%d%H%M%S")
 def RunNumber( timeSTR ):
     return RunNumberGenerator('NTU',timeSTR)
@@ -419,6 +419,10 @@ def ICID(icTYPE,icID):
 def FillValueIfColumnExisted(val, col):
     log.debug(f'[FillValueIfColumnExisted] got column "{col}" so return val "{val if col != "" else ""}"')
     return val if col != '' else ''
+
+def AveragedIf2Val(numberSTR):
+    numbers = [ float(n) for n in numberSTR.split('/') ]
+    return sum(numbers) / float(len(numbers))
 
 def BatchNumber(v):
     def generate_batch_number(dt=None):
