@@ -183,12 +183,16 @@ def get_time(timeSTR):
 def TimeStampConv(timeSTAMP:str):
     return get_time(timeSTAMP)
 RUN_NUMBER_LOCATION = { 'NTU': '2601' }
-def RunNumberGenerator(location:str):
+def RunNumberGenerator(location:str, timeSTAMP ):
     if location not in RUN_NUMBER_LOCATION.keys():
         ''' Check location code here https://int2r-shipment.web.cern.ch/locations/ '''
         raise NotImplementedError(f'[InvalidLocation] RunNumberGenerator() got invalid location "{ location }".')
-    now = datetime.datetime.now()
+   #now = datetime.datetime.now()
+    now = timeSTAMP
     return now.strftime(f"{RUN_NUMBER_LOCATION[location]}%y%m%d%H%M%S")
+def RunNumber( timeSTR ):
+    return RunNumberGenerator('NTU',timeSTR)
+    
 
     
 
