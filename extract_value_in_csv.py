@@ -1,9 +1,6 @@
 import csv
 
 
-# Columns to extract
-columns_ic = ["IC1", "IC2", "IC3", "IC4", "IC5", "IC6"]
-columns_LDO = ["LDO1","LDO2","LDO3"]
 
 
 # Read CSV and extract IC values
@@ -31,31 +28,18 @@ def rec_list(output_txt_file, ic_values):
 
 
 
-def extractColumn(inCSV, outTEXT, columnDEF:list):
-    print(f'[InputCSV] {inCSV}')
-    rec_list(outTXTfile, extract_value(inCSVfile, columnDEF))
-    print(f'[OutputText] {outTEXT}')
+def mainfunc( columnNAMEs, inCSVfile, outTEXTfile ):
+    print(f'[InputCSV] {inCSVfile}')
+    rec_list(outTXTfile, extract_value(inCSVfile, columnNAMEs))
+    print(f'[OutputText] {outTEXTfile}')
     
-def mainfunc( mode, inCSVfile, outTEXTfile ):
-    column = None
-    if mode == 'LDO':
-        column = columns_LDO
-        print('a')
-    if mode == 'HGCROC':
-        column = columns_ic
-        print('b')
-    if mode == None:
-        raise IOError(f'[Invalid option] mode "{mode}" is invalid. Only support "LDO" and "HGCROC"')
-
-    print(f'mode: {mode}')
-    print(f'column: {column}')
-    extractColumn(inCSVfile, outTEXTfile, column)
     
 if __name__ == "__main__":
     import sys
+    ### python3 this.py iCSV.csv hiiii 'LDO1,LDO2,LDO3'
 
-    mode = sys.argv[1]
+    inCSVfile = sys.argv[1]
     oTAG = sys.argv[2]
-    inCSVfile = sys.argv[3]
-    outTXTfile = f'record_{oTAG}_{mode}.txt'
-    mainfunc(mode, inCSVfile, outTXTfile)
+    columnNAMEs = sys.argv[3].split(',') ## column name separated by ',' like 'IC1,IC2,IC3,IC4,IC5,IC6'
+    outTXTfile = f'recordValue_inCSV_{oTAG}.txt'
+    mainfunc(columnNAMEs, inCSVfile, outTXTfile)

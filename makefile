@@ -54,11 +54,14 @@ example: ## a example code to execute
 
 
 
-extract: ## extract all LDO in csv file [inCSV=data.csv][oTAG=hhhi]
-	$(call check_defined, inCSV)
-	$(call check_defined, oTAG)
-	python3 extract_value_in_csv.py LDO $(oTAG) $(inCSV)
-	python3 extract_value_in_csv.py HGCROC $(oTAG) $(inCSV)
+
+
+
+extract: ## extract all values in csv column, note that csvCOLUMN might be quoted [inCSV=aa.csv][oTAG=checkVAL][csvCOLUMN="LDO1,LDO2,LDO3"]
+	$(call check_defined,inCSV)
+	$(call check_defined,oTAG)
+	$(call check_defined,csvCOLUMN)
+	python3 extract_value_in_csv.py $(inCSV) $(oTAG) "$(csvCOLUMN)"
 
 
 
