@@ -7,6 +7,7 @@
             <SERIAL_NUMBER>CSV_COLUMN(0,'Assembled hexaboard serial number')</SERIAL_NUMBER>
             <BATCH_NUMBER>BatchNumber(CSV_COLUMN(0,'Batch number'))</BATCH_NUMBER>
             <MANUFACTURER>CSV_COLUMN(0,'Manufacturer')</MANUFACTURER>
+            <VERSION>'old ' + CSV_COLUMN(0,'HGCROC chip version')</VERSION>
             <LOCATION>NTU</LOCATION>
             <INSTITUTION>National Taiwan University</INSTITUTION>
             <CHILDREN>
