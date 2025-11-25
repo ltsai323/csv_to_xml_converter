@@ -8,6 +8,7 @@
             <MANUFACTURER>NTU</MANUFACTURER>
             <INSTITUTION>National Taiwan University</INSTITUTION>
             <LOCATION>NTU</LOCATION>
+            <PRODUCTION_DATE>CSV_COLUMN(0,'proto_ass_date')</PRODUCTION_DATE>
             <CHILDREN>
                 <PART mode="auto">
                     <KIND_OF_PART>FindKindOfPart(CSV_COLUMN(0,'proto_name'))</KIND_OF_PART>

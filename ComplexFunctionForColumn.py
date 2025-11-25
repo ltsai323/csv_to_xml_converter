@@ -409,7 +409,28 @@ def ICID(icTYPE,icID):
             if ictype == 'v3a': return icID # asdf
             if ictype == 'v3b': return f'ICRH{DEFINED_ICTYPE[ictype]}{icID}'
             if ictype == 'v3c': return icID
+            if ictype == 'v3c': return icID
             log.debug(f'[Blank ICID] type {icTYPE} and ic ID {icID} finds no matching. Empty field filled')
+        else:
+            log.debug(f'[NoICID] Skip this entry')
+        return ''
+
+    except KeyError as e:
+        raise RuntimeError(f'[Invalid IC ID] input ID "{ v }" in wrong format. Please check it')
+def LDOID(icTYPE,ldoID):
+    try:
+        ldoID = ldoID.strip()
+        if ldoID:
+            ictype = icTYPE.lower()
+            log.debug(f'[Got LDO ID] {ldoID}')
+            if ictype == 'v3d':
+                if ldoID[:3] == 'LDO': return ldoID
+                if ldoID[:3] != 'LDO':
+                    number, ldo, intval = ldoID.split(' ')
+                    new_ldo_id = ' '.join([ldo,intval,number])
+                    log.info(f'[UpdatedLDOID] new LDO ID "{new_ldo_id}" converted from "{ldoID}"')
+                    return new_ldo_id
+            return ldoID
         else:
             log.debug(f'[NoICID] Skip this entry')
         return ''

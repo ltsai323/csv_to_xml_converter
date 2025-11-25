@@ -9,6 +9,7 @@
 			<INSTITUTION>National Taiwan University</INSTITUTION>
 			<RECORD_INSERTION_USER>ltsai</RECORD_INSERTION_USER>
 			<MANUFACTURER>NTU</MANUFACTURER>
+      <PRODUCTION_DATE>{{ assembly_date }}</PRODUCTION_DATE>
 			<CHILDREN>
 				<PART mode="auto">
 					<KIND_OF_PART>CuW/Kapton Baseplate HD Full</KIND_OF_PART>

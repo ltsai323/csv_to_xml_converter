@@ -5,8 +5,9 @@
             <KIND_OF_PART>FindKindOfPart(CSV_COLUMN(0,'proto_name'))</KIND_OF_PART>
             <BARCODE>CSV_COLUMN(0,'proto_name')</BARCODE>
             <SERIAL_NUMBER>CSV_COLUMN(0,'proto_name')</SERIAL_NUMBER>
-            <BATCH_NUMBER>BatchNumber(CSV_COLUMN(0,'ass_run_date'))</BATCH_NUMBER>
+            <BATCH_NUMBER>BatchNumber(CSV_COLUMN(0,'proto_ass_date'))</BATCH_NUMBER>
             <MANUFACTURER>NTU</MANUFACTURER>
+            <PRODUCTION_DATE>CSV_COLUMN(0,'proto_ass_date')</PRODUCTION_DATE>
             <LOCATION>NTU</LOCATION>
             <INSTITUTION>National Taiwan University</INSTITUTION>
             <CHILDREN>
@@ -15,7 +16,7 @@
                     <SERIAL_NUMBER>CSV_COLUMN(0,'bp_name')</SERIAL_NUMBER>
                 </PART>
                 <PART mode="auto">
-                    <KIND_OF_PART>FindKindOfPart(TranslateSensorBarcode('HD',CSV_COLUMN(0,'sen_name')))</KIND_OF_PART>
+                    <KIND_OF_PART>FindKindOfPart(TranslateSensorBarcode(CSV_COLUMN(0,'resolution'),CSV_COLUMN(0,'sen_name')))</KIND_OF_PART>
                     <SERIAL_NUMBER>CSV_COLUMN(0,'sen_name')</SERIAL_NUMBER>
                 </PART>
             </CHILDREN>
