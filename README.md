@@ -21,3 +21,8 @@ Checking LDO and HGCROC on CMSR
 - [ ] Upload collectLDO_v3B.csv
 Checking LDO and HGCROC on CMSR or not.
 - [x] Upload collectLDO_v3C.csv
+
+
+
+## installation
+pip install requests
