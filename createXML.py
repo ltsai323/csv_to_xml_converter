@@ -1,15 +1,26 @@
 #!/usr/bin/env python3
-import logging
-import sys
-log = logging.getLogger(__name__)
+import mylogging
+
+
+#class CustomLogger(logging.Logger):
+#    has_error = False
+#    
+#    def error(self, msg, *args, **kwargs):
+#        # Set has_error to True when an error is logged
+#        self.has_error = True
+#        super().error(msg, *args, **kwargs)
+#
+#    def reset_error_state(self):
+#        self.has_error = False
+## Register the custom logger class
+#logging.setLoggerClass(CustomLogger)
+
+log = mylogging.getLogger()
 
 import xml.etree.ElementTree as ET
 import ComplexFunctionForColumn
 DEBUG_MODE = False
 FILE_IDENTIFIER = 'createXML.py'
-def BUG(mesg):
-    if DEBUG_MODE:
-        print(f'b-{FILE_IDENTIFIER}@ {mesg}')
 
 
 
@@ -35,7 +46,7 @@ def xml_to_dict(xml_content):
                     result[child_key] = child_value
             return result
 
-    print(xml_content)
+    log.debug(xml_content)
     root = ET.fromstring(xml_content)
     return {root.tag: parse_element(root)}
 
@@ -100,12 +111,12 @@ def modify_all_elements(data):
             return data
         except TypeError as e:
             if '(' in data and "'" in data:
-                print(f'[WARNING] Save string "{ data }" to XML file without interpreting.')
+                log.debug(f'[WARNING] Save string "{ data }" to XML file without interpreting.')
             return data
         except NameError as e:
             ### Put the string if the interpretion failed
             if '(' in data and "'" in data:
-                print(f'[WARNING] Save string "{ data }" without interpreting.')
+                log.debug(f'[WARNING] Save string "{ data }" without interpreting.')
             return data
 def pass_event_filter(filterFUNCs):
     ''' every event filter is AND operation '''
@@ -155,13 +166,13 @@ def show_first_10_lines(csvFILE:str):
         csvFILE(str): input csv file
     '''
 
-    print('[ShowColumns] Show 10 lines to set startIdx\n\n\n')
+    log.info('[ShowColumns] Show 10 lines to set startIdx\n\n\n')
     with open(csvFILE, 'r') as f:
         reader = csv.reader(f)
         for idx, line in enumerate(reader):
             if idx == 10: break
             line_with_number = [ f'{ii}:{vv}' for ii,vv in enumerate(line) ]
-            print(f'[Line {idx}] {line_with_number}')
+            log.info(f'[Line {idx}] {line_with_number}')
     exit()
 
 def get_value_from_key(data, target_key):
@@ -211,6 +222,7 @@ def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, inFI
         reader = csv.reader(csvFile)
         for idx, line in enumerate(reader):
             if idx < startIDX: continue # skip the column definition lines
+            log.reset_error_state()
             ComplexFunctionForColumn.set_csv_entry(line)
             if not pass_event_filter(filter_funcs): continue
             xml_dict_contains_empty = modify_all_elements(xml_dict_template)
@@ -228,23 +240,20 @@ def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, inFI
             serialNumber = get_value_from_key(xml_dict, "SERIAL_NUMBER")
             output_file = f'outputs/NTU_{outputTAG}_{serialNumber}.xml'
             IOMgr_CSVinXMLout.save_as_a_butified_xml_file(xml_root, output_file)
-            print(f"[Output] XML file saved to {output_file}")
+            if log.has_error:
+                log.warning(f'[NullOutput] XML {output_file} not generated due to error detected')
+            else:
+                log.info(f"[Output] XML file saved to {output_file}")
 
-            #if DEBUG_MODE:
-            #    BUG(f'[DEBUG MODE] Only show one entry for checking')
-            #    break
 
 
 
 
 if __name__ == '__main__':
-    import os
-    loglevel = os.environ.get('LOG_LEVEL', 'INFO') # DEBUG, INFO, WARNING
-    DEBUG_MODE = True if loglevel == 'DEBUG' else False
-    logLEVEL = getattr(logging, loglevel)
-    logging.basicConfig(stream=sys.stdout,level=logLEVEL,
-                        format='[basicCONFIG] %(levelname)s - %(message)s',
-                        datefmt='%H:%M:%S')
+    DEBUG_MODE = mylogging.debug_mode()
+    mylogging.setup_logging(__file__)
+    log = mylogging.getLogger()
+    import sys
 
 
     xmlTEMPLATE = sys.argv[1]
