@@ -27,7 +27,7 @@
     </PART>
     <DATA>
         <TESTED_BY>NTU Labs</TESTED_BY>
-        <TEST_DATE>TimeStampConv( CSV_COLUMN(0,'Timestamp'))</TEST_DATE>
+        <TEST_DATE>TimeStampConv( CSV_COLUMN(0,'時間戳記'))</TEST_DATE>
         <HGCROC_TYPE>CSV_COLUMN(0,'HGCROC chip version')</HGCROC_TYPE>
         <HGCROC_ROTATION>CSV_COLUMN(0,'Visual inspection [HGCROC chip rotation]')</HGCROC_ROTATION>
         <CONNECTORS>CSV_COLUMN(0,'Visual inspection [Connector]')</CONNECTORS>

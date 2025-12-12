@@ -6,7 +6,7 @@
             <BARCODE>CSV_COLUMN(0,'Assembled hexaboard serial number')</BARCODE>
             <SERIAL_NUMBER>CSV_COLUMN(0,'Assembled hexaboard serial number')</SERIAL_NUMBER>
             <BATCH_NUMBER>BatchNumber(CSV_COLUMN(0,'Batch number'))</BATCH_NUMBER>
-            <VERSION>v3D</VERSION>
+            <VERSION>'old ' + CSV_COLUMN('0','HGCROC chip version')</VERSION>
             <MANUFACTURER>CSV_COLUMN(0,'Manufacturer')</MANUFACTURER>
             <LOCATION>NTU</LOCATION>
             <INSTITUTION>National Taiwan University</INSTITUTION>
@@ -76,8 +76,8 @@
                     </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
-                    <KIND_OF_PART>FindKindOfPartIfBarcodeExist(LDOID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'LDO1')))</KIND_OF_PART>
-                    <SERIAL_NUMBER>LDOID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'LDO1'))</SERIAL_NUMBER>
+                    <KIND_OF_PART>FindKindOfPartIfBarcodeExist(CSV_COLUMN(0,'LDO1'))</KIND_OF_PART>
+                    <SERIAL_NUMBER>CSV_COLUMN(0,'LDO1')</SERIAL_NUMBER>
                     <PREDEFINED_ATTRIBUTES>
                       <ATTRIBUTE>
                         <NAME>LDO Position</NAME>
@@ -86,8 +86,8 @@
                     </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
-                    <KIND_OF_PART>FindKindOfPartIfBarcodeExist(LDOID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'LDO2')))</KIND_OF_PART>
-                    <SERIAL_NUMBER>LDOID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'LDO2'))</SERIAL_NUMBER>
+                    <KIND_OF_PART>FindKindOfPartIfBarcodeExist(CSV_COLUMN(0,'LDO2'))</KIND_OF_PART>
+                    <SERIAL_NUMBER>CSV_COLUMN(0,'LDO2')</SERIAL_NUMBER>
                     <PREDEFINED_ATTRIBUTES>
                       <ATTRIBUTE>
                         <NAME>LDO Position</NAME>
@@ -96,8 +96,8 @@
                     </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
-                    <KIND_OF_PART>FindKindOfPartIfBarcodeExist(LDOID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'LDO3')))</KIND_OF_PART>
-                    <SERIAL_NUMBER>LDOID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'LDO3'))</SERIAL_NUMBER>
+                    <KIND_OF_PART>FindKindOfPartIfBarcodeExist(CSV_COLUMN(0,'LDO3'))</KIND_OF_PART>
+                    <SERIAL_NUMBER>CSV_COLUMN(0,'LDO3')</SERIAL_NUMBER>
                     <PREDEFINED_ATTRIBUTES>
                       <ATTRIBUTE>
                         <NAME>LDO Position</NAME>
