@@ -203,12 +203,11 @@ def get_value_from_key(data, target_key):
     return None
 
 
-def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, inFILTER:str="", version:str='1' ):
+def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, inFILTER:str=""):
     kopSOURCEfiles = ['data/Kind_of_parts.csv', 'data/Kind_of_parts_appendix.csv' ]
     import IOMgr_CSVinXMLout
     ComplexFunctionForColumn.init_csv_column_definition(inCSVfile, startIDX)
     ComplexFunctionForColumn.init_kind_of_part_searcher(kopSOURCEfiles)
-    ComplexFunctionForColumn.set_version(version)
     with open(xmlTEMPLATE, 'r') as fIN:
         xml_dict_template = xml_to_dict(fIN.read())
 
@@ -239,10 +238,13 @@ def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, inFI
             # Save XML to a file from SERIAL_NUMBER
             serialNumber = get_value_from_key(xml_dict, "SERIAL_NUMBER")
             output_file = f'outputs/NTU_{outputTAG}_{serialNumber}.xml'
-            IOMgr_CSVinXMLout.save_as_a_butified_xml_file(xml_root, output_file)
             if log.has_error:
                 log.warning(f'[NullOutput] XML {output_file} not generated due to error detected')
+                if DEBUG_MODE:
+                    log.debug(f'[KeepOutput] XML {output_file} generated since in DEBUG mode')
+                    IOMgr_CSVinXMLout.save_as_a_butified_xml_file(xml_root, output_file)
             else:
+                IOMgr_CSVinXMLout.save_as_a_butified_xml_file(xml_root, output_file)
                 log.info(f"[Output] XML file saved to {output_file}")
 
 
@@ -274,5 +276,4 @@ if __name__ == '__main__':
             xmlTEMPLATE = xmlTEMPLATE,
             outputTAG = outputTAG,
             inFILTER = inFILTER,
-            version = outputVERSION
             )
