@@ -203,11 +203,12 @@ def get_value_from_key(data, target_key):
     return None
 
 
-def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, inFILTER:str=""):
+def main_func( inCSVfile:str, startIDX:int, xmlTEMPLATE:str, outputTAG:str, inFILTER:str="", version:str='1'):
     kopSOURCEfiles = ['data/Kind_of_parts.csv', 'data/Kind_of_parts_appendix.csv' ]
     import IOMgr_CSVinXMLout
     ComplexFunctionForColumn.init_csv_column_definition(inCSVfile, startIDX)
     ComplexFunctionForColumn.init_kind_of_part_searcher(kopSOURCEfiles)
+    ComplexFunctionForColumn.set_version(version)
     with open(xmlTEMPLATE, 'r') as fIN:
         xml_dict_template = xml_to_dict(fIN.read())
 
@@ -276,4 +277,5 @@ if __name__ == '__main__':
             xmlTEMPLATE = xmlTEMPLATE,
             outputTAG = outputTAG,
             inFILTER = inFILTER,
+            version = outputVERSION,
             )

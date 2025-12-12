@@ -478,14 +478,14 @@ def BatchNumber(v):
     return generate_batch_number(t)
 
 
-# OUTPUT_VERSION = '1'
-# def set_version(v):
-#     global OUTPUT_VERSION
-#     OUTPUT_VERSION = v
-#     log.info(f'[Version] Set output version as {OUTPUT_VERSION}')
-# def VERSION():
-#     global OUTPUT_VERSION
-#     return str(OUTPUT_VERSION)
+OUTPUT_VERSION = '1'
+def set_version(v):
+    global OUTPUT_VERSION
+    OUTPUT_VERSION = v
+    log.info(f'[Version] Set output version as {OUTPUT_VERSION}')
+def VERSION():
+    global OUTPUT_VERSION
+    return str(OUTPUT_VERSION)
 
 def CheckValue_In(v:str, fragLIST:list):
     ''' check the input value in one of fragLIST
