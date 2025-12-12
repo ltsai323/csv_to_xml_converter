@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
-import logging
-import sys
+import mylogging
 
-log = logging.getLogger(__name__)
-import os
-DEBUG_MODE = True if os.environ.get('LOG_LEVEL', 'INFO') == 'DEBUG' else False
+log = mylogging.getLogger()
+DEBUG_MODE = mylogging.debug_mode()
 
 import csv
 
@@ -505,19 +503,76 @@ def CheckValue_NotIn(v:str, fragLIST:list):
     return True
 
 
+loadedJSONs = {}
+
+import requests
+import json
+def access_json(barCODE, varNAME):
+    ### remove \r and empty. Than convert space to %20
+    barcode = barCODE.strip().replace(' ', '%20')
+    hgcui_url = f'https://hgcapi.web.cern.ch/mac/part/{barcode}/full'
+
+    if barcode in loadedJSONs:
+        log.debug(f'[ReadFromLocal] barcode "{barcode}" existed in memory. Load value')
+        return loadedJSONs[barcode][varNAME]
+
+    log.debug(f'[URL] access_json() full HGCUI URL is "{hgcui_url}"')
+    output = ''
+    try:
+        # Send a GET request to the URL
+        response = requests.get(hgcui_url)
+        
+        # Check if the request was successful
+        if response.status_code == 200:
+            try:
+                # Attempt to parse the JSON from the response
+                json_data = response.json()
+                log.debug("[GotJsonFromCMSR] access_json() JSON response received successfully.")
+                #global loadedJSONs
+                loadedJSONs[barcode] = json_data
+                output = json_data[varNAME]
+            except json.JSONDecodeError:
+                log.error("[NotJsonFormat] access_json() reads The response is not a valid JSON format. {hgcui_url}")
+                output = 'access_json() NotJsonFormat'
+        else:
+            log.error(f"[InvalidServerResponse] access_json() Received response with status code {response.status_code}. from {hgcui_url}")
+            output = 'access_json() InvalidServerResponse'
+    except requests.exceptions.RequestException as e:
+        log.error(f"[InvalidRequest] access_json() got an error occurred while making the request from {hgcui_url}: {e}")
+        output = 'access_json() InvalidRequest'
+    return output ### return nothing
+def CMSRreadVersion(barCODE):
+    return access_json(barCODE, 'version')
+def CMSRreadKOP(barCODE):
+    return access_json(barCODE, 'kind')
+def CMSRreadKOPIfBarcodeExist(barCODE):
+    return access_json(barCODE, 'kind') if barCODE != '' else ''
+
+def testjson():
+    vv1 = access_json('320XHF4BPP00021', 'qc')
+    vv2 = access_json('320070100300124', 'kind')
+    vv3 = access_json('320072100300215', 'version')
+    #print(vv)
+    for barcode, ljson in loadedJSONs.items():
+        print(barcode, json.dumps(ljson, indent=2))
+    print(vv2)
+    print(vv3)
+        
+    #print(json.dumps(loadedJSONs)
+
+    
+
 
 if __name__ == '__main__':
-    import os
-    loglevel = os.environ.get('LOG_LEVEL', 'INFO') # DEBUG, INFO, WARNING
-    DEBUG_MODE = True if loglevel == 'DEBUG' else False
-    logLEVEL = getattr(logging, loglevel)
-    logging.basicConfig(stream=sys.stdout,level=logLEVEL,
-                        format='[basicCONFIG] %(levelname)s - %(message)s',
-                        datefmt='%H:%M:%S')
+    DEBUG_MODE = mylogging.debug_mode()
+    
+    mylogging.setup_logging(__file__,'DEBUG')
+    log = mylogging.getLogger()
 
     #testfunc_csv_column_idx()
     #testfunc_init_csv_column_definition()
     #testfunc_read_csv_entry()
     #testfunc_FindKindOfPart()
     #testfunc_FindKindOfPart2()
-    testAveragedIf2Val()
+    #testAveragedIf2Val()
+    testjson()
