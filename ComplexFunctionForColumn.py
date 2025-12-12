@@ -405,8 +405,7 @@ def ICID(icTYPE,icID):
         if icID:
             ictype = icTYPE.lower()
             if ictype == 'v3a': return icID # asdf
-            if ictype == 'v3b': return f'ICRH{DEFINED_ICTYPE[ictype]}{icID}'
-            if ictype == 'v3c': return icID
+            if ictype == 'v3b' and 'ICRH' not in icID: return f'ICRH{DEFINED_ICTYPE[ictype]}{icID}'
             if ictype == 'v3c': return icID
             log.debug(f'[Blank ICID] type {icTYPE} and ic ID {icID} finds no matching. Empty field filled')
         else:
@@ -416,6 +415,9 @@ def ICID(icTYPE,icID):
     except KeyError as e:
         raise RuntimeError(f'[Invalid IC ID] input ID "{ v }" in wrong format. Please check it')
 def LDOID(icTYPE,ldoID):
+    if 'QP' in ldoID:
+        log.debug(f'[IgnoreOldLDO] LDO {ldoID} ignored since it is "QPooxxo".')
+        return ''
     try:
         ldoID = ldoID.strip()
         if ldoID:
@@ -430,7 +432,7 @@ def LDOID(icTYPE,ldoID):
                     return new_ldo_id
             return ldoID
         else:
-            log.debug(f'[NoICID] Skip this entry')
+            log.debug(f'[NoLDOID] Skip this entry')
         return ''
 
     except KeyError as e:
@@ -476,14 +478,14 @@ def BatchNumber(v):
     return generate_batch_number(t)
 
 
-OUTPUT_VERSION = '1'
-def set_version(v):
-    global OUTPUT_VERSION
-    OUTPUT_VERSION = v
-    log.info(f'[Version] Set output version as {OUTPUT_VERSION}')
-def VERSION():
-    global OUTPUT_VERSION
-    return str(OUTPUT_VERSION)
+# OUTPUT_VERSION = '1'
+# def set_version(v):
+#     global OUTPUT_VERSION
+#     OUTPUT_VERSION = v
+#     log.info(f'[Version] Set output version as {OUTPUT_VERSION}')
+# def VERSION():
+#     global OUTPUT_VERSION
+#     return str(OUTPUT_VERSION)
 
 def CheckValue_In(v:str, fragLIST:list):
     ''' check the input value in one of fragLIST
@@ -533,13 +535,10 @@ def access_json(barCODE, varNAME):
                 output = json_data[varNAME]
             except json.JSONDecodeError:
                 log.error("[NotJsonFormat] access_json() reads The response is not a valid JSON format. {hgcui_url}")
-                output = 'access_json() NotJsonFormat'
         else:
             log.error(f"[InvalidServerResponse] access_json() Received response with status code {response.status_code}. from {hgcui_url}")
-            output = 'access_json() InvalidServerResponse'
     except requests.exceptions.RequestException as e:
         log.error(f"[InvalidRequest] access_json() got an error occurred while making the request from {hgcui_url}: {e}")
-        output = 'access_json() InvalidRequest'
     return output ### return nothing
 def CMSRreadVersion(barCODE):
     return access_json(barCODE, 'version')
