@@ -16,8 +16,8 @@
                     <SERIAL_NUMBER>CSV_COLUMN(0,'Bare serial number ')</SERIAL_NUMBER>
                 </PART>
                  <PART mode="auto">
-                    <KIND_OF_PART>CMSRreadKOPIfBarcodeExist( CSV_COLUMN(0,'IC1'))</KIND_OF_PART>
-                    <SERIAL_NUMBER>CSV_COLUMN(0,'IC1')</SERIAL_NUMBER>
+                    <KIND_OF_PART>CMSRreadKOPIfBarcodeExist( ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC1')))</KIND_OF_PART>
+                    <SERIAL_NUMBER>ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC1'))</SERIAL_NUMBER>
                     <PREDEFINED_ATTRIBUTES>
                       <ATTRIBUTE>
                         <NAME>FindHGCROCname( CSV_COLUMN(0,'Assembled hexaboard serial number'))</NAME>
@@ -26,8 +26,8 @@
                     </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
-                    <KIND_OF_PART>CMSRreadKOPIfBarcodeExist( CSV_COLUMN(0,'IC2'))</KIND_OF_PART>
-                    <SERIAL_NUMBER>CSV_COLUMN(0,'IC2')</SERIAL_NUMBER>
+                    <KIND_OF_PART>CMSRreadKOPIfBarcodeExist( ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC2')))</KIND_OF_PART>
+                    <SERIAL_NUMBER>ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC2'))</SERIAL_NUMBER>
                     <PREDEFINED_ATTRIBUTES>
                       <ATTRIBUTE>
                         <NAME>FindHGCROCname( CSV_COLUMN(0,'Assembled hexaboard serial number'))</NAME>
@@ -36,8 +36,8 @@
                     </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
-                    <KIND_OF_PART>CMSRreadKOPIfBarcodeExist( CSV_COLUMN(0,'IC3'))</KIND_OF_PART>
-                    <SERIAL_NUMBER>CSV_COLUMN(0,'IC3')</SERIAL_NUMBER>
+                    <KIND_OF_PART>CMSRreadKOPIfBarcodeExist( ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC3')))</KIND_OF_PART>
+                    <SERIAL_NUMBER>ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC3'))</SERIAL_NUMBER>
                     <PREDEFINED_ATTRIBUTES>
                       <ATTRIBUTE>
                         <NAME>FindHGCROCname( CSV_COLUMN(0,'Assembled hexaboard serial number'))</NAME>
@@ -46,8 +46,8 @@
                     </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
-                    <KIND_OF_PART>CMSRreadKOPIfBarcodeExist( CSV_COLUMN(0,'IC4'))</KIND_OF_PART>
-                    <SERIAL_NUMBER>CSV_COLUMN(0,'IC4')</SERIAL_NUMBER>
+                    <KIND_OF_PART>CMSRreadKOPIfBarcodeExist( ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC4')))</KIND_OF_PART>
+                    <SERIAL_NUMBER>ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC4'))</SERIAL_NUMBER>
                     <PREDEFINED_ATTRIBUTES>
                       <ATTRIBUTE>
                         <NAME>FindHGCROCname( CSV_COLUMN(0,'Assembled hexaboard serial number'))</NAME>
@@ -56,8 +56,8 @@
                     </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
-                    <KIND_OF_PART>CMSRreadKOPIfBarcodeExist( CSV_COLUMN(0,'IC5'))</KIND_OF_PART>
-                    <SERIAL_NUMBER>CSV_COLUMN(0,'IC5')</SERIAL_NUMBER>
+                    <KIND_OF_PART>CMSRreadKOPIfBarcodeExist( ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC5')))</KIND_OF_PART>
+                    <SERIAL_NUMBER>ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC5'))</SERIAL_NUMBER>
                     <PREDEFINED_ATTRIBUTES>
                       <ATTRIBUTE>
                         <NAME>FindHGCROCname( CSV_COLUMN(0,'Assembled hexaboard serial number'))</NAME>
@@ -66,8 +66,8 @@
                     </PREDEFINED_ATTRIBUTES>
                 </PART>
                  <PART mode="auto">
-                    <KIND_OF_PART>CMSRreadKOPIfBarcodeExist( CSV_COLUMN(0,'IC6'))</KIND_OF_PART>
-                    <SERIAL_NUMBER>CSV_COLUMN(0,'IC6')</SERIAL_NUMBER>
+                    <KIND_OF_PART>CMSRreadKOPIfBarcodeExist( ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC6')))</KIND_OF_PART>
+                    <SERIAL_NUMBER>ICID(CSV_COLUMN(0,'HGCROC chip version'),CSV_COLUMN(0,'IC6'))</SERIAL_NUMBER>
                     <PREDEFINED_ATTRIBUTES>
                       <ATTRIBUTE>
                         <NAME>FindHGCROCname( CSV_COLUMN(0,'Assembled hexaboard serial number'))</NAME>
