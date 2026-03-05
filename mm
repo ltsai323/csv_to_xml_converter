@@ -1,0 +1,74 @@
+.DEFAULT_GOAL := help
+
+
+
+# Variable check function (shell snippet)
+check_defined = \
+    $(strip $(foreach 1,$1, \
+    $(call __check_defined,$1,$(strip $(value 2)))))
+
+
+timeSTAMP=$$(date "+%Y%m%d_%H%M")
+
+
+
+# _ is a fake target used for fill redundant input requirement
+_ = _
+
+
+barecreate: ## create BareHexaboard. Used xml template data/template_BareHex_VisInspection.xml [inCSV=testsample_createXML_AssembledHexaBoard.csv]
+	$(call check_defined, inCSV)
+	python3 createXML.py data/template_BareHex_CreatePart.xml $(inCSV) NewBare_$(timeSTAMP)
+barevis: ## visual inspection of BareHexaboard. Used xml template data/template_BareHex_VisInspection.xml [inCSV=testsample_createXML_AssembledHexaBoard.csv]
+	$(call check_defined, inCSV)
+	python3 createXML.py data/template_BareHex_VisInspection.xml $(inCSV) BareVis_$(timeSTAMP)
+hexcreate: ## Create parts of AssembledHexaboard. Used xml template data/template_BareHex_VisInspection.xml [inCSV=testsample_createXML_AssembledHexaBoard.csv]
+	$(call check_defined, inCSV)
+	python3 createXML.py data/template_AssembledHexaboard_CreatePart.xml $(inCSV) NewHex_$(timeSTAMP) data/filter_AssembledHexaboard_CreatePart.txt
+hexvis: ## visual inspection of AssembledHexaboard. Used xml template data/template_BareHex_VisInspection.xml [inCSV=testsample_createXML_AssembledHexaBoard.csv]
+	$(call check_defined, inCSV)
+	python3 createXML.py data/template_AssembledHexaboard_VisInspection.xml $(inCSV) HexVis_$(timeSTAMP)
+protomodulecreate: ## Create parts of proto module. Used xml template data/template_ProtoModule_CreatePart.xml  [inCSV=testsample_createXML_AssembledHexaBoard.csv]
+	$(call check_defined, inCSV)
+	python3 createXML.py data/template_ProtoModule_CreatePart.xml $(inCSV) NewProtoModule_$(timeSTAMP)
+simodulecreate: ## Create parts of silicon module. Used xml template data/template_SiModule_CreatePart.xml  [inCSV=testsample_createXML_AssembledHexaBoard.csv]
+	$(call check_defined, inCSV)
+	python3 createXML.py data/template_SiModule_CreatePart.xml $(inCSV) NewSiModule_$(timeSTAMP)
+
+
+general: ## Create parts of AssembledHexaboard [inXML=data/template_AssembledHexaboard_CreatePart.xml] [inCSV=testsample_createXML_AssembledHexaBoard.csv] [oTAG=tag] [inFILTER=data/filter_AssembledHexaboard_CreatePart.txt]
+	$(call check_defined,inCSV)
+	$(call check_defined,inXML)
+	$(call check_defined,oTAG)
+	$(call check_defined,inFILTER)
+	python3 createXML.py "$(inXML)" "$(inCSV)" "$(oTAG)_$(timeSTAMP)" "$(inFILTER)"
+check: ## check xml content [inXML=data/template_AssembledHexaboard_CreatePart.xml] [inCSV=testsample_createXML_AssembledHexaBoard.csv] [oTAG=tag]
+	$(call check_defined, inCSV)
+	$(call check_defined, inXML)
+	$(call check_defined, oTAG)
+	python3 createXML.py $(inXML) $(inCSV) $(oTAG) 0
+
+
+example: ## a example code to execute
+	python3 createXML.py inputs/BareCreatePart_Nov26_2024_template.xml inputs/BareCreatePart_Nov26_2024.csv BareCreatePart_Nov26_2024 1
+
+
+
+
+
+
+extract: ## extract all values in csv column, note that csvCOLUMN might be quoted [inCSV=aa.csv][oTAG=checkVAL][csvCOLUMN="LDO1,LDO2,LDO3"]
+	$(call check_defined,inCSV)
+	$(call check_defined,oTAG)
+	$(call check_defined,csvCOLUMN)
+	python3 extract_value_in_csv.py $(inCSV) $(oTAG) "$(csvCOLUMN)"
+
+
+
+clean: ## clean outputs/*.xml
+	/bin/rm outputs/*.xml || echo workspace is empty
+
+##@ Utility
+IN_ARGS = [arg]
+help:  ## Display this help
+	@awk 'BEGIN {FS = ":.*##"; printf "Usage: make \033[32m<command>\033[0m $(IN_ARGS)\n\nCommands:\n\033[36m\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
