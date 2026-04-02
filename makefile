@@ -64,6 +64,9 @@ extract: ## extract all values in csv column, note that csvCOLUMN might be quote
 	python3 extract_value_in_csv.py $(inCSV) $(oTAG) "$(csvCOLUMN)"
 
 
+SQLcmd: ## create SQL command via search script and evaluate script [filePREFIX=task1]
+	$(call check_defined,filePREFIX)
+	python3 createSQLcmd.py SQLtemplate/$(filePREFIX)*.sql
 
 clean: ## clean outputs/*.xml
 	/bin/rm outputs/*.xml || echo workspace is empty

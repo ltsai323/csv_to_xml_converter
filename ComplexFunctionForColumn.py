@@ -560,6 +560,8 @@ def testjson():
     #print(json.dumps(loadedJSONs)
 
     
+def get_geo(moduleID):
+    return '333'
 
 
 if __name__ == '__main__':
