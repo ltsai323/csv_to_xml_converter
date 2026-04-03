@@ -9,9 +9,9 @@ log = logging.getLogger(__name__)
 
 DB_HOST = "192.168.50.213"
 DB_PORT = 5432
-DB_NAME = "hgcdb"
-DB_USER = "postgres"   # change if your user is different
-DB_PASSWORD = "33665146"
+DB_NAME = ""
+DB_USER = ""   # change if your user is different
+DB_PASSWORD = ""
 
 NULL_STR = 'NULL'
 def db_value(recVAL):
